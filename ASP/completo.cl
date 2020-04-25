@@ -100,32 +100,33 @@ insegna(vgp, travostino).
 % Una tripla <settimana,giorno,ora> ha al massimo 1 insegnamento assegnato per evitare sovrapposizione
 { si_svolge(I, S, G, O) : insegnamento(I) } 1 :- settimana(S), giorno(G), ora(O). %sovrapposto(X,Y) :- insegnamento(X), insegnamento(Y), si_svolge(X, S, G, O), si_svolge(Y, S, G, O), X!=Y.
 
-% Definizione di lezione normale solo ven-sab eccetto le settimane intere 7 e 16
-lezione(I,S,G,O) :-
+% Definizione delle lezioni
+% Settimana 7, giorni lun-ven, max 8h di lezione
+lezione(I,S,G,O) :-             
     insegnamento(I), settimana(S), giorno(G), ora(O),
     S = 7,
     si_svolge(I,S,G,O).
-
+% Settimana 7, sabato, max 5h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
     S = 7, G=6, O<6,
     si_svolge(I,S,G,O).
-
+% Settimana 16, giorni lun-ven, max 8h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
     S = 16,
     si_svolge(I,S,G,O).
-
+% Settimana 16, sabato, max 5h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
     S = 16, G=6, O<6,
     si_svolge(I,S,G,O).
-
+% Settimana normale, venerdì, max 8h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
     S != 7, S!=16, G = 5,
     si_svolge(I,S,G,O).
-
+% Settimana normale, sabato, max 5h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
     S != 7, S!=16, G = 6, O < 6,
@@ -149,6 +150,7 @@ slotTempo(S,G,O,N) :-
     settimana(S), giorno(G), ora(O),
     N = (G-1 * 8 + O) * S.
 
+% idOra assegna ad ogni ora un numero unico sequanziale che la contraddistingue nel calendario
 idOra(S, G, O, COUNT) :-
     settimana(S), giorno(G), ora(O),
     S == 7,
@@ -194,7 +196,8 @@ v6 :- settimana(S_ACC), giorno(G_ACC), ora(O_ACC), lezione(progmulti, S_ACC, G_A
     settimana(S_LM), giorno(G_LM), ora(O_LM), lezione(lm, S_LM, G_LM, O_LM),
     slotTempo(S_ACC, G_ACC, O_ACC, N_ACC), slotTempo(S_LM, G_LM, O_LM, N_LM), N_LM < N_ACC.
 
-% V7= slotTempo(insegnamento_successivo) > slotTempo(insegnamento_precedente)
+% v7 la prima lezione di insegnamento_successivo deve avvenire dopo ultima di insegnamento_precedente
+%   slotTempo(insegnamento_successivo) > slotTempo(insegnamento_precedente)
 v7 :- settimana(S_SLC), giorno(G_SLC), ora(O_SLC), lezione(lcs, S_SLC, G_SLC, O_SLC), slotTempo(S_SLC, G_SLC, O_SLC, N_SLC), 
     settimana(S_ICT), giorno(G_ICT), ora(O_ICT), lezione(ict, S_ICT, G_ICT, O_ICT), slotTempo(S_ICT, G_ICT, O_ICT, N_ICT),
     settimana(S_PSAWDMI), giorno(G_PSAWDMI), ora(O_PSAWDMI), lezione(psawdmI, S_PSAWDMI, G_PSAWDMI, O_PSAWDMI), slotTempo(S_PSAWDMI, G_PSAWDMI, O_PSAWDMI, N_PSAWDMI),
