@@ -153,6 +153,11 @@ slotTempo(S,G,O,N) :-
 % idOra assegna ad ogni ora un numero unico sequanziale che la contraddistingue nel calendario
 idOra(S, G, O, COUNT) :-
     settimana(S), giorno(G), ora(O),
+    S < 7,
+    COUNT = (S - 1) * 12 + (G - 5) * 8 + O.
+    
+idOra(S, G, O, COUNT) :-
+    settimana(S), giorno(G), ora(O),
     S == 7,
     COUNT = (S - 1) * 12 + (G - 1) * 8 + O.
 
