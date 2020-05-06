@@ -40,22 +40,22 @@ insegna(corso_8, docente5).
 % Settimana 3, giorni lun-ven, max 8h di lezione
 lezione(I,S,G,O) :-             
     insegnamento(I), settimana(S), giorno(G), ora(O),
-    S = 3, si_svolge(I,S,G,O).
+    S = 3, G < 6 , si_svolge(I,S,G,O).
 
 % Settimana 3, sabato, max 5h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
-    S = 3, G=6, O<6, si_svolge(I,S,G,O).
+    S = 3, G = 6, O < 6, si_svolge(I,S,G,O).
 
 % Settimana 5, giorni lun-ven, max 8h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
-    S = 5, si_svolge(I,S,G,O).
+    S = 5, G < 6,  si_svolge(I,S,G,O).
 
 % Settimana 5, sabato, max 5h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
-    S = 5, G=6, O<6, si_svolge(I,S,G,O).
+    S = 5, G = 6, O < 6, si_svolge(I,S,G,O).
 
 % Settimana normale, venerdì, max 8h di lezione
 lezione(I,S,G,O) :-
