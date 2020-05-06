@@ -40,63 +40,41 @@ insegna(corso_8, docente5).
 % Settimana 3, giorni lun-ven, max 8h di lezione
 lezione(I,S,G,O) :-             
     insegnamento(I), settimana(S), giorno(G), ora(O),
-    S = 3, G < 6 , si_svolge(I,S,G,O).
+    S == 3, G < 6 , si_svolge(I,S,G,O).
 
 % Settimana 3, sabato, max 5h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
-    S = 3, G = 6, O < 6, si_svolge(I,S,G,O).
+    S == 3, G == 6, O < 6, si_svolge(I,S,G,O).
 
 % Settimana 5, giorni lun-ven, max 8h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
-    S = 5, G < 6,  si_svolge(I,S,G,O).
+    S == 5, G < 6,  si_svolge(I,S,G,O).
 
 % Settimana 5, sabato, max 5h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
-    S = 5, G = 6, O < 6, si_svolge(I,S,G,O).
+    S == 5, G == 6, O < 6, si_svolge(I,S,G,O).
 
 % Settimana normale, venerdì, max 8h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
-    S != 3, S!=5, G = 5, si_svolge(I,S,G,O).
+    S != 3, S!=5, G == 5, si_svolge(I,S,G,O).
 
 % Settimana normale, sabato, max 5h di lezione
 lezione(I,S,G,O) :-
     insegnamento(I), settimana(S), giorno(G), ora(O),
-    S != 3, S!=5, G = 6, O < 6, si_svolge(I,S,G,O).
+    S != 3, S!=5, G == 6, O < 6, si_svolge(I,S,G,O).
 
 %------------------------- Assegnazione id a ciascuno slot del calendario -------------------
-% Ogni ora, o slot, del calendario viene contrasseganata con un id progressivo nel soddisfacimento 
-% di alcuni vincoli
+% Ogni ora, o slot, del calendario viene contrasseganata con un id progressivo nel soddisfacimento di alcuni vincoli
+% gli idOra vanno da 1 per la prima ora del primo giorno della prima settimana
+% fino a 288 che è ottava ora del sesto giorno della sesta settimana
 
 idOra(S, G, O, COUNT) :-
     settimana(S), giorno(G), ora(O),
-    S < 3,
-    COUNT = (S - 1) * 12 + (G - 5) * 8 + O.
-
-idOra(S, G, O, COUNT) :-
-    settimana(S), giorno(G), ora(O),
-    S == 3,
-    COUNT = (S - 1) * 12 + (G - 1) * 8 + O.
-
-idOra(S, G, O, COUNT) :-
-    settimana(S), giorno(G), ora(O),
-    S > 3, S < 5,
-    COUNT = (S - 2) * 12 + (G - 5) * 8 + O + 44.
-
-idOra(S, G, O, COUNT) :-
-    settimana(S), giorno(G), ora(O),
-    S == 5,
-    COUNT = (S - 2) * 12 + (G - 1) * 8 + O + 44.
-
-idOra(S, G, O, COUNT) :-
-    settimana(S), giorno(G), ora(O),
-    S > 5,
-    COUNT = (S - 3) * 12 + (G - 5) * 8 + O + 44 + 44.
-
-
+    COUNT = (S - 1) * 48 + (G - 1) * 8 + O.
 
 %------------------------- Definizione vincoli rigidi -------------------------------
 
@@ -114,7 +92,7 @@ v3 :- lezione(presentazione_master, 1, 5, 1), lezione(presentazione_master, 1, 5
 %--- Vincolo 4 -- 2 blocchi da 2 ore per recuperi ---
 v4 :- lezione(recupero, S, G, O),ora(O), settimana(S), giorno(G), 
     lezione(recupero, S1, G1, O1), settimana(S1), giorno(G1), ora(O1), 
-    idOra(S,G,O,N), idOra(S1,G1,O1,N1), N != N1, N > N1 + 2.                 
+    idOra(S,G,O,N), idOra(S1,G1,O1,N1), S == S1, G == G1,  N == N1 + 1.               
 
 %--- Vincolo 5 -- ...
 %--- Vincolo 6 -- ...
@@ -128,7 +106,6 @@ v4 :- lezione(recupero, S, G, O),ora(O), settimana(S), giorno(G),
 % ------------------------ Definizione dei goal --------------------------
 goal :- 
 
-% conteggio ore di lezione per ciascuna materia
 #count{S, G, O: lezione(presentazione_master, S, G, O), settimana(S), giorno(G),ora(O)} == 2,
 #count{S, G, O: lezione(corso_1, S, G, O), settimana(S), giorno(G),ora(O)} == 20,
 #count{S, G, O: lezione(corso_2, S, G, O), settimana(S), giorno(G),ora(O)} == 15,
@@ -136,7 +113,7 @@ goal :-
 #count{S, G, O: lezione(corso_4, S, G, O), settimana(S), giorno(G),ora(O)} == 20,
 #count{S, G, O: lezione(corso_5, S, G, O), settimana(S), giorno(G),ora(O)} == 20,
 #count{S, G, O: lezione(corso_6, S, G, O), settimana(S), giorno(G),ora(O)} == 10,
-#count{S, G, O: lezione(corso_7, S, G, O), settimana(S), giorno(G),ora(O)} == 4,
+#count{S, G, O: lezione(corso_7, S, G, O), settimana(S), giorno(G),ora(O)} == 6,
 #count{S, G, O: lezione(corso_8, S, G, O), settimana(S), giorno(G),ora(O)} == 10,
 #count{S, G, O: lezione(recupero, S, G, O), settimana(S), giorno(G),ora(O)} == 4,
 
@@ -149,3 +126,4 @@ not v2max.
 :- not goal.
 
 #show lezione/4.
+
