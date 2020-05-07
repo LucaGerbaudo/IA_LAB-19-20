@@ -82,7 +82,7 @@ idOra(S, G, O, ID) :-
 
 %------------------------- Definizione vincoli rigidi -------------------------------
 
-%--- Vincolo 1 -- max 4 ore al giorno per docente ---                                                   NON FUNZIONA!!
+%--- Vincolo 1 -- max 4 ore al giorno per docente ---                                                   
 %v1 :- insegnamento(I), ora(O), settimana(S), giorno(G), docente(D), insegna(I,D),
 %    #count{O: lezione(I, S, G, O) } > 4.
 :- insegnamento(I),settimana(S), giorno(G),ora(O), lezione(I, S, G, O), 
