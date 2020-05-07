@@ -85,12 +85,12 @@ idOra(S, G, O, ID) :-
 %--- Vincolo 1 -- max 4 ore al giorno per docente ---                                                   NON FUNZIONA!!
 %v1 :- insegnamento(I), ora(O), settimana(S), giorno(G), docente(D), insegna(I,D),
 %    #count{O: lezione(I, S, G, O) } > 4.
-%v1 :- insegnamento(I),settimana(S), giorno(G),ora(O), lezione(I, S, G, O), 
-%    #count{I1: lezione(I1, S, G, O), insegnamento(I1), docente(D), insegna(I1,D)} < 2.
+:- insegnamento(I),settimana(S), giorno(G),ora(O), lezione(I, S, G, O), 
+   #count{I1: lezione(I1, S, G, O), insegnamento(I1), docente(D), insegna(I1,D)} > 4.
 
 %--- Vincolo 2 -- ciascun insegnamento min 2 e max 4 ore al giorno ---
-v2min :- insegnamento(I),settimana(S), giorno(G),ora(O), lezione(I, S, G, O), #count{O1: lezione(I, S, G, O1), ora(O1)} < 2.
-v2max :- insegnamento(I),settimana(S), giorno(G),ora(O), lezione(I, S, G, O), #count{O1: lezione(I, S, G, O1), ora(O1)} > 4.
+:- insegnamento(I),settimana(S), giorno(G),ora(O), lezione(I, S, G, O), #count{O1: lezione(I, S, G, O1), ora(O1)} < 2.
+:- insegnamento(I),settimana(S), giorno(G),ora(O), lezione(I, S, G, O), #count{O1: lezione(I, S, G, O1), ora(O1)} > 4.
 
 %--- Vincolo 3 -- 2 ore di presentazione master il primo giorno ---
 v3 :- lezione(presentazione_master, 1, 5, 1), lezione(presentazione_master, 1, 5, 2).
@@ -98,8 +98,8 @@ v3 :- lezione(presentazione_master, 1, 5, 1), lezione(presentazione_master, 1, 5
 %--- Vincolo 4 -- 2 blocchi da 2 ore per recuperi ---
 %v4 :- lezione(recupero, S, G, O), ora(O), settimana(S), giorno(G), idOra(S,G,O,N), lezione(recupero, S, G, O1), ora(O1), idOra(S,G,O1,N1), O != O1, N1 == N+1.       
 %v4 :-  lezione(recupero, S, G, O), lezione(recupero, S1, G1, O1), settimana(S), giorno(G), ora(O), settimana (S1), giorno(G1),ora(O1), S1==S,G1==G, O == O1 + 1.
-%v4 :-  lezione(recupero, S, G, O), lezione(recupero, S, G, O1), settimana(S), giorno(G), ora(O), ora(O1), O == O1 +1).
-v4 :- lezione(recupero, S, G, O), O < O2, lezione(I, S, G, O2), O+1 != O2.
+%v4 :-  lezione(recupero, S, G, O), lezione(recupero, S, G, O1), settimana(S), giorno(G), ora(O), ora(O1), O == O1 + 1.
+:- lezione(recupero, S, G, O), O < O2, lezione(I, S, G, O2), O+1 != O2.
 
 
 %--- Vincolo 5 -- ...
@@ -127,11 +127,8 @@ goal :-
 
 %not vConsecutive,
 
-%v1, 
-not v4,
-v3,  
-not v2min,
-not v2max.
+v3.
+
 
 
 
