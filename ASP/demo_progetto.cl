@@ -164,7 +164,7 @@ v3 :- lezione(presentazione_master, 1, 5, 1), lezione(presentazione_master, 1, 5
 %v4 :- lezione(recupero, S, G, O), ora(O), settimana(S), giorno(G), idOra(S,G,O,N), lezione(recupero, S, G, O1), ora(O1), idOra(S,G,O1,N1), O != O1, N1 == N+1.       
 %v4 :-  lezione(recupero, S, G, O), lezione(recupero, S1, G1, O1), settimana(S), giorno(G), ora(O), settimana (S1), giorno(G1),ora(O1), S1==S,G1==G, O == O1 + 1.
 %v4 :-  lezione(recupero, S, G, O), lezione(recupero, S, G, O1), settimana(S), giorno(G), ora(O), ora(O1), O == O1 + 1.
-:- lezione(recupero, S, G, O), O < O2, lezione(I, S, G, O2), O+1 != O2.
+:- lezione(recupero, S, G, O), O < O2, lezione(recupero, S, G, O2), O+1 != O2.
 
 
 %--- Vincolo 5 -- ...
