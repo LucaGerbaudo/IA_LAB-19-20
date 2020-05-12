@@ -167,9 +167,103 @@ v3 :- lezione(presentazione_master, 1, 5, 1), lezione(presentazione_master, 1, 5
 :- lezione(recupero, S, G, O), O < O2, lezione(recupero, S, G, O2), O+1 != O2.
 
 
-%--- Vincolo 5 -- ...
-%--- Vincolo 6 -- ...
+%V5 l’insegnamento “Project Management” deve concludersi non oltre la prima settimana full-time
+v5:- settimana(S), giorno(G), ora(O), S > 7, lezione(pm, S, G, O).
+
+%v6 la prima lezione di progmulti collocata prima del termine lezioni di lm
+v6 :- settimana(S_ACC), giorno(G_ACC), ora(O_ACC), lezione(progmulti, S_ACC, G_ACC, O_ACC),
+    settimana(S_LM), giorno(G_LM), ora(O_LM), lezione(lm, S_LM, G_LM, O_LM),
+    idOra(S_ACC, G_ACC, O_ACC, N_ACC), idOra(S_LM, G_LM, O_LM, N_LM), N_LM < N_ACC.
+
 %--- Vincolo 7 -- ...
+%*v7 :- settimana(S_SLC), giorno(G_SLC), ora(O_SLC), lezione(lcs, S_SLC, G_SLC, O_SLC), idOra(S_SLC, G_SLC, O_SLC, N_SLC), 
+    settimana(S_ICT), giorno(G_ICT), ora(O_ICT), lezione(ict, S_ICT, G_ICT, O_ICT), idOra(S_ICT, G_ICT, O_ICT, N_ICT),
+    settimana(S_PSAWDMI), giorno(G_PSAWDMI), ora(O_PSAWDMI), lezione(psawdmI, S_PSAWDMI, G_PSAWDMI, O_PSAWDMI), idOra(S_PSAWDMI, G_PSAWDMI, O_PSAWDMI, N_PSAWDMI),
+    settimana(S_PSAWMII), giorno(G_PSAWMII), ora(O_PSAWMII), lezione(psawmII, S_PSAWMII, G_PSAWMII, O_PSAWMII), idOra(S_PSAWMII, G_PSAWMII, O_PSAWMII, N_PSAWMII),
+    settimana(S_PBD), giorno(G_PBD), ora(O_PBD), lezione(pBD, S_PBD, G_PBD, O_PBD), idOra(S_PBD, G_PBD, O_PBD, N_PBD),
+    settimana(S_TSS), giorno(G_TSS), ora(O_TSS), lezione(tss, S_TSS, G_TSS, O_TSS), idOra(S_TSS, G_TSS, O_TSS, N_TSS),
+    settimana(S_LM), giorno(G_LM), ora(O_LM), lezione(lm, S_LM, G_LM, O_LM), idOra(S_LM, G_LM, O_LM, N_LM),
+    settimana(S_PM), giorno(G_PM), ora(O_PM), lezione(pm, S_PM, G_PM, O_PM), idOra(S_PM, G_PM, O_PM, N_PM),
+    settimana(S_MD), giorno(G_MD), ora(O_MD), lezione(md, S_MD, G_MD, O_MD), idOra(S_MD, G_MD, O_MD, N_MD),
+    settimana(S_TSMD), giorno(G_TSMD), ora(O_TSMD), lezione(tsmd, S_TSMD, G_TSMD, O_TSMD), idOra(S_TSMD, G_TSMD, O_TSMD, N_TSMD),
+    settimana(S_SM), giorno(G_SM), ora(O_SM), lezione(sm, S_SM, G_SM, O_SM), idOra(S_SM, G_SM, O_SM, N_SM),
+    settimana(S_PGDI), giorno(G_PGDI), ora(O_PGDI), lezione(pgdi, S_PGDI, G_PGDI, O_PGDI), idOra(S_PGDI, G_PGDI, O_PGDI, N_PGDI),
+    settimana(S_EIS), giorno(G_EIS), ora(O_EIS), lezione(eis, S_EIS, G_EIS, O_EIS), idOra(S_EIS, G_EIS, O_EIS, N_EIS),
+    settimana(S_FT), giorno(G_FT), ora(O_FT), lezione(ft, S_FT, G_FT, O_FT), idOra(S_FT, G_FT, O_FT, N_FT),
+    settimana(S_AEID), giorno(G_AEID), ora(O_AEID), lezione(aeid, S_AEID, G__AEID, O_AEID), idOra(S_AEID, G__AEID, O_AEID, N_AEID),
+    settimana(S_G3D), giorno(G_G3D), ora(O_G3D), lezione(grafica3D, S_G3D, G_G3D, O_G3D), idOra(S_G3D, G_G3D, O_G3D, N_G3D),
+    N_SLC > N_ICT,          % prima ora di lcs dopo ultima ora di ict
+    N_PSAWDMI > N_SLC,      % prima ora di psawdmI dopo ultima ora di lcs
+    N_PSAWMII > N_PSAWDMI,  % prima ora di psawmII dopo ultima ora di psawdmI
+    N_TSS > N_PBD,          % prima ora di tss dopo ultima ora di pBD
+    N_SLC > N_LM,           % prima ora di lcs dopo ultima ora di lm
+    N_MD > N_PM,            % prima ora di md  dopo ultima ora di pm
+    N_TSMD > N_MD,          % prima ora di tsmd dopo ultima ora di md
+    N_SM > N_PM,            % prima ora di sm dopo ultima ora di sm
+    N_PGDI > N_PM,          % prima ora di pgdi dopo ultima ora di sm
+    N_FT > N_EIS,           % prima ora di ft dopo ultima ora di eis
+    N_AEID > N_FT,          % prima ora di aeid dopo ultima ora di ft
+    N_G3D > N_EIS.*%          % prima ora di grafica3D dopo ultima ora di eis
+
+v7 :- 
+    settimana(S_LCS), giorno(G_LCS), ora(O_LCS), lezione(lcs, S_LCS, G_LCS, O_LCS), idOra(S_LCS, G_LCS, O_LCS, N_LCS), 
+    settimana(S_ICT), giorno(G_ICT), ora(O_ICT), lezione(ict, S_ICT, G_ICT, O_ICT), idOra(S_ICT, G_ICT, O_ICT, N_ICT),
+    N_LCS < N_ICT.
+
+v7 :-
+    settimana(S_LCS), giorno(G_LCS), ora(O_LCS), lezione(lcs, S_LCS, G_LCS, O_LCS), idOra(S_LCS, G_LCS, O_LCS, N_LCS),
+    settimana(S_LM), giorno(G_LM), ora(O_LM), lezione(lm, S_LM, G_LM, O_LM), idOra(S_LM, G_LM, O_LM, N_LM),
+    N_LCS < N_LM.
+
+v7 :- 
+    settimana(S_PSAWDMI), giorno(G_PSAWDMI), ora(O_PSAWDMI), lezione(psawdmI, S_PSAWDMI, G_PSAWDMI, O_PSAWDMI), idOra(S_PSAWDMI, G_PSAWDMI, O_PSAWDMI, N_PSAWDMI),
+    settimana(S_LCS), giorno(G_LCS), ora(O_LCS), lezione(lcs, S_LCS, G_LCS, O_LCS), idOra(S_LCS, G_LCS, O_LCS, N_LCS), 
+    N_PSAWDMI < N_LCS.
+
+v7 :-
+    settimana(S_PSAWDMI), giorno(G_PSAWDMI), ora(O_PSAWDMI), lezione(psawdmI, S_PSAWDMI, G_PSAWDMI, O_PSAWDMI), idOra(S_PSAWDMI, G_PSAWDMI, O_PSAWDMI, N_PSAWDMI),
+    settimana(S_PSAWMII), giorno(G_PSAWMII), ora(O_PSAWMII), lezione(psawmII, S_PSAWMII, G_PSAWMII, O_PSAWMII), idOra(S_PSAWMII, G_PSAWMII, O_PSAWMII, N_PSAWMII),
+    N_PSAWMII < N_PSAWDMI.
+
+v7 :-
+    settimana(S_PBD), giorno(G_PBD), ora(O_PBD), lezione(pBD, S_PBD, G_PBD, O_PBD), idOra(S_PBD, G_PBD, O_PBD, N_PBD),
+    settimana(S_TSS), giorno(G_TSS), ora(O_TSS), lezione(tss, S_TSS, G_TSS, O_TSS), idOra(S_TSS, G_TSS, O_TSS, N_TSS),
+    N_TSS < N_PBD.
+
+v7 :-
+    settimana(S_PM), giorno(G_PM), ora(O_PM), lezione(pm, S_PM, G_PM, O_PM), idOra(S_PM, G_PM, O_PM, N_PM),
+    settimana(S_MD), giorno(G_MD), ora(O_MD), lezione(md, S_MD, G_MD, O_MD), idOra(S_MD, G_MD, O_MD, N_MD),
+    N_MD < N_PM.
+
+v7 :-
+    settimana(S_SM), giorno(G_SM), ora(O_SM), lezione(sm, S_SM, G_SM, O_SM), idOra(S_SM, G_SM, O_SM, N_SM),
+    settimana(S_PM), giorno(G_PM), ora(O_PM), lezione(pm, S_PM, G_PM, O_PM), idOra(S_PM, G_PM, O_PM, N_PM),
+    N_SM < N_PM.
+
+v7 :-
+    settimana(S_PGDI), giorno(G_PGDI), ora(O_PGDI), lezione(pgdi, S_PGDI, G_PGDI, O_PGDI), idOra(S_PGDI, G_PGDI, O_PGDI, N_PGDI),
+    settimana(S_PM), giorno(G_PM), ora(O_PM), lezione(pm, S_PM, G_PM, O_PM), idOra(S_PM, G_PM, O_PM, N_PM),
+    N_PGDI < N_PM.
+
+v7 :-
+    settimana(S_MD), giorno(G_MD), ora(O_MD), lezione(md, S_MD, G_MD, O_MD), idOra(S_MD, G_MD, O_MD, N_MD),
+    settimana(S_TSMD), giorno(G_TSMD), ora(O_TSMD), lezione(tsmd, S_TSMD, G_TSMD, O_TSMD), idOra(S_TSMD, G_TSMD, O_TSMD, N_TSMD),
+    N_TSMD < N_MD.
+
+v7 :-
+    settimana(S_EIS), giorno(G_EIS), ora(O_EIS), lezione(eis, S_EIS, G_EIS, O_EIS), idOra(S_EIS, G_EIS, O_EIS, N_EIS),
+    settimana(S_FT), giorno(G_FT), ora(O_FT), lezione(ft, S_FT, G_FT, O_FT), idOra(S_FT, G_FT, O_FT, N_FT),
+    N_FT < N_EIS.
+
+v7 :-
+    settimana(S_AEID), giorno(G_AEID), ora(O_AEID), lezione(aeid, S_AEID, G__AEID, O_AEID), idOra(S_AEID, G__AEID, O_AEID, N_AEID),
+    settimana(S_FT), giorno(G_FT), ora(O_FT), lezione(ft, S_FT, G_FT, O_FT), idOra(S_FT, G_FT, O_FT, N_FT),
+    N_AEID < N_FT.
+
+v7 :-
+    settimana(S_G3D), giorno(G_G3D), ora(O_G3D), lezione(grafica3D, S_G3D, G_G3D, O_G3D), idOra(S_G3D, G_G3D, O_G3D, N_G3D),
+    settimana(S_EIS), giorno(G_EIS), ora(O_EIS), lezione(eis, S_EIS, G_EIS, O_EIS), idOra(S_EIS, G_EIS, O_EIS, N_EIS),
+    N_G3D < N_EIS.
 
 
 % ------------------------- Definizione Vincoli auspicabili---------------------------
@@ -210,7 +304,10 @@ goal :-
 
 %not vConsecutive,
 
-v3.
+v3,
+not v5,
+v6.
+not v7.
 
 
 
@@ -219,3 +316,7 @@ v3.
 
 #show lezione/4.
 
+% VINCOLI AUSPICABILI
+% primo vincolo Racca
+% Secondo Chiara
+% Terzo io
