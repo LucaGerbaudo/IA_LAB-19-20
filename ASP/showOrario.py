@@ -2,13 +2,15 @@ import os
 import datetime
 
 def main():
+    output = ''
     start = datetime.datetime.now()
     startDayAndTime = start.strftime("%d/%m/%Y %H:%M:%S")
     print('Start solving at: ' + startDayAndTime)
-    os.system('clingo completo.cl > output.txt')
+    os.system('clingo demo_progetto.cl > output.txt')
+    stop = datetime.datetime.now()
     f = open("output.txt", "r")
     listaGiorni = ['LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB']
-    output = ''
+    output2 = ''
     i = 0
     for x in f:
         if i == 4 : 
@@ -16,8 +18,10 @@ def main():
         i = i+1
     listaLezioni = output.split(' ')
     stringalezioni = ''
-    for settimana in range(1,25) :
+    numSettimane = 24
+    for settimana in range(1,numSettimane + 1) :
         print("#SETTIMANA " + str(settimana))
+        output2 += "#SETTIMANA " + str(settimana) + "\n"
         for giorno in range(1,7) :
             stringalezioni = ''
             for ora in range(1,9) :
@@ -30,14 +34,19 @@ def main():
             if stringalezioni != '' :
                 print("\t" + listaGiorni[giorno-1])
                 print(stringalezioni)
-    stop = datetime.datetime.now()
+                output2 += "\t" + listaGiorni[giorno-1]
+                output2 += "\n" + stringalezioni
+    
     stopDayAndTime = stop.strftime("%d/%m/%Y %H:%M:%S")
+    print('Started solving at: ' + startDayAndTime)
     print('Stopped solving at: ' + stopDayAndTime)
 
     execution = stop - start
     print('Duration of execution: ')
     print(execution)
-        
+    f = open("Lezioni.txt", "w")
+    f.write(output2)
+    f.close()    
         
 
 if __name__== "__main__":
