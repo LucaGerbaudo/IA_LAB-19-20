@@ -268,7 +268,11 @@ v7 :-
 
 % ------------------------- Definizione Vincoli auspicabili---------------------------
 
-
+v1a :- 
+    settimana(S_1), giorno(G_1), ora(O_1), lezione(C_1, S_1, G_1, O_1),
+    settimana(S_2), giorno(G_2), ora(O_2), lezione(C_2, S_2, G_2, O_2),
+    C_1 == C_2, 
+    S_2 - S_1 > 5.
 
 % ------------------------ Definizione dei goal --------------------------
 goal :- 
@@ -306,8 +310,9 @@ goal :-
 
 v3,
 not v5,
-v6.
-not v7.
+v6,
+not v7,
+not v1a.
 
 
 
