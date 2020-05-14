@@ -240,13 +240,21 @@ v6 :- settimana(S_ACC), giorno(G_ACC), ora(O_ACC), lezione(progmulti, S_ACC, G_A
 % ------------------------- Definizione Vincoli Auspicabili---------------------------
 
 %--- Vincolo auspicabile 1 -- Distanza tra prima e ultima ora di lezione < 6 settimane --  (ANDREA)
+%*
 v1a :- 
     settimana(S_1), giorno(G_1), ora(O_1), lezione(C_1, S_1, G_1, O_1),
     settimana(S_2), giorno(G_2), ora(O_2), lezione(C_2, S_2, G_2, O_2),
     C_1 == C_2, 
     S_2 - S_1 > 5.
+*%
 
 %--- Vincolo auspicabile 2 -- Insegnamenti crossmedia e smm devono iniziare nella settimana 16 --  (CHIARA)
+% entrambe le lezioni si svolgono dalla settimana 16, ed entrambe hanno almeno 1 ora in quella settimana
+%*
+:-  lezione(crossmedia, S, G, O), giorno(G), ora(O), settimana(S), S < 16.
+:-  lezione(smm, S, G, O), giorno(G), ora(O), settimana(S), S < 16.
+v2a :- lezione(crossmedia, 16, G, O), giorno(G), ora(O), lezione(smm, 16, G, O), giorno(G), ora(O).
+*%
 
 %--- Vincolo auspicabile 3 -- Ogni insegnamento successivo deve iniziare 4 ore dopo il precedente --  (LUCA)
 
@@ -287,12 +295,15 @@ goal :-
 %not vConsecutive,
 
 v3,
-v6,
-not v1a.
-
-
-
+v6.
 
 :- not goal.
+
+%*
+goal_auspicabili:-
+    not v1a.
+    v2a.
+*%
+%:- not goal_auspicabili.
 
 #show lezione/4.
