@@ -1,0 +1,51 @@
+- Consiglia di sviluppare diverse strategie (più o meno intelligenti) e per ciascuna individuare i limiti e i vantaggi, andando a fare i confronti
+
+- FIRE-> da immaginare come azione di percezione: consente di vedere il contenuto di una cella. Se contiene una porzione di nave l'info restituita dovrà essere precisa: deve dire se è un'estremità, un elemento intermedio o un sottomarino (ovvero nave di lunghezza 1). NUMERO LIMITATO DI FIRE -> <= 5
+
+- GUESS-> è come mettere bandierina su una cella ipotizzando ci sia una parte di nave. Deve essere l'azione PRINCIPALE. il sistema userà la fire solo in presenza di ambiguità. NUMERO DI GUESS <= 20.
+
+- UNGUESS -> rimuove bandierina messa dalla guess. Il sistema dovrà mettere e togliere bandierine e in presenza di ambiguita: FIRE. Se dalla fire vengono fuori delle info utili, si può usare unguess
+
+- SOLVE -> interrompe il gioco e calcola un punteggio secondo la formula data sul file
+
+---- MAIN ----
+
+Definisce l'alternarsi delle azioni di ENVIRONMENT e AGENT
+*TEMPLATES*
+- exec 	 -> esegue una delle 3 az.
+- status -> pattern di controllo per vedere se è finito il gioco
+- moves  -> salva numero fire e guesse
+- statistics -> serve per computare lo scoring finale (num azioni fatte)
+*RULES*
+- parte da ENV per definire la mappa
+- ENV va in esecuzione solo quando l'agente ha asserito una exec. ENV si aspetta una e una sola EXEC.
+
+---- ENVIRONMENT ----
+
+Importa TUTTO dal main
+Esporta solo alcuni template che rappresentano la conoscenza iniziale dell'agente (solo una porzione del mondo reale).
+
+*TEMPLATES*
+- cell -> rappresenta una cella con coord e il contenuto (acqua, nave integra, nave colpita). Indica anche se la cella ha subito delle azioni (none,guess, fired, missed se contiene una nave non trovata a fine gioco)
+- boat-hor -> con nome (serve per individuare navi completamente affondate). Indica la x e più y, dimensione e status (multislot) che indica quante celle sono colpite e non 
+- boat-ver -> con nome (serve per individuare navi completamente affondate). Indica la y e più x, dimensione e status (multislot) che indica quante celle sono colpite e non 
+- k-cell -> definisce le celle note a inizio gioco
+- k-per-row -> indica il numero di celle occupate da una nave in una riga
+- k-per-col -> indica il numero di celle occupate da una nave in una colonna
+*RULES*
+Ci sono varie regole che servono per calcolare il punteggio finale
+
+---- AGENT ---- DA RISCRIVERE PER INTERO, INSOMMA
+*TEMPLATES*
+
+*RULES*
+
+Ogni volta che si esegue una regola, fa il pop del focus in modo da eseguirne una sola alla volta.
+Si può anche dividere AGENT in due MODULI in modo che AGENT coordini questi due moduli.
+- DELIBERATE -> che può produrre una soluz che viene data a EXEC. OPPURE produce una o più ipotesi e quando gli serve avere più info, emette una fire che passa il controllo alla EXEC
+- EXEC -> esegue le azioni di deliberate uno alla volta.
+
+-------------------------------
+EDITOR DI MAPPE
+
+
