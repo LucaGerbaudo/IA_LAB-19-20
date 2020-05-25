@@ -89,7 +89,7 @@
 	(pop-focus)
 )
 
-; Controlla k-cell top e faccio guess cella sottostante
+; Controlla k-cell top e faccio guess cella soprastante
 (defrule guessCellOnTopK-Bot ;(declare (salience 50))
 	(status (step ?s) (currently running))
 	(k-cell (x ?x) (y ?y) (content bot))
