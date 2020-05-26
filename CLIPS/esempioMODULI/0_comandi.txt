@@ -1,0 +1,30 @@
+ELENCO COMANDI PER ESEGUIRE CLIPS
+
+(clear)
+
+(load 0_Main.clp)
+(load 1_Env.clp)
+(load 2_Mappa.clp)
+(load 3_Agent_Chiara.clp)
+(reset)
+(run)
+
+
+(clear)
+
+(load 0_Main.clp)
+(load 1_Env.clp)
+(load 2_Mappa_Chiara.clp)
+(load 3_Agent_Chiara2.clp)
+(reset)
+(run)
+
+(clear)
+
+(load 0_Main.clp)
+(load 1_Env.clp)
+(load 2_Mappa_Chiara.clp)
+(load 3_Agent_Chiara4.clp)
+(load 3_Fire_Chiara_4.clp)
+(reset)
+(run)
