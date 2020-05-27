@@ -48,9 +48,6 @@
 	;(cell_status (kx (+ ?x 1)) (ky ?y) (stat guessed) ) ; top/bot guessed
 	;(not (k-cell (x (+ ?x 2)) (y ?y) (content water)) )
 
-;	(k-cell (x (- ?x 1)) (y ?y) (content top))
-;	(k-cell (x ?x ) (y ?y) (content middle))
-;	(k-cell (x (+ ?x 1)) (y ?y) (content bot))
 ;=>	
 ;	(modify ?mvs (fires (- ?nf 1)))
 ;	(modify (cruiser (to_find (- ?to_find_c 1)) ))
