@@ -28,7 +28,7 @@
 =>
 
   (retract ?f)
-  (printout t "---------------------vado ad env INIZIO -----------------------------------------"crlf)
+;  (printout t "---------------------vado ad env INIZIO -----------------------------------------"crlf)
   (focus ENV)
 )
 
@@ -40,7 +40,7 @@
  =>
 
     ;(printout t crlf crlf)
-    (printout t "---------------------vado ad AGENT  step" ?s"-----------------------------------------"crlf)
+  ;  (printout t "---------------------vado ad AGENT  step" ?s"-----------------------------------------"crlf)
     (focus AGENT)
 )
 
@@ -55,7 +55,7 @@
 =>
 
   ; (printout t crlf crlf)
-  (printout t "---------------------vado ad ENV  step" ?s"-----------------------------------------"crlf)
+  ;(printout t "---------------------vado ad ENV  step" ?s"-----------------------------------------"crlf)
   ; (printout t "vado ad ENV  step" ?s)
   (focus ENV)
 

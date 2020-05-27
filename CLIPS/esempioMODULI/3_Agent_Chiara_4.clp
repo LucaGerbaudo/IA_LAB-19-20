@@ -1,5 +1,5 @@
 
-;  -------------- AGENTE 1 DI CHIARA -------------------------------
+;  -------------- AGENTE DI CHIARA -------------------------------
 ; OBIETTIVO:
 
 (defmodule AGENT (import MAIN ?ALL) (import ENV ?ALL) (export ?ALL))
@@ -28,10 +28,17 @@
 	(battleship (to_find 1))
 )
 
+;Template per controlli sulla cella
+(deftemplate cell_status
+	(slot kx)
+	(slot ky)
+	(slot stat (allowed-values none guessed fired) )
+)
+
 ;  --------------------------- INIZIALIZZAZIONE ------------------------------------------------------
 
 ; Caso in cui nessuna cella nota all' inizio del gioco
-(defrule no-knoweledge-at-beginning (declare (salience 50))
+(defrule no-knoweledge-at-beginning (declare (salience 500))
 	(not (k-cell (x ?x) (y ?y) (content ?t) ))
 	;(k-per-row (row ?r) (num ?n))
 =>
@@ -40,7 +47,7 @@
 )
 
 ; Controlla k-cell top e guess su di essa
-(defrule guessKCellTop ;(declare (salience 10))
+(defrule guessKCellTop (declare (salience 100))
 	(status (step ?s) (currently running))
 	(k-cell (x ?x) (y ?y) (content top))
 	(not (exec (action guess) (x ?x) (y ?y)))
@@ -57,11 +64,14 @@
 	(assert (k-cell (x (- ?x 1)) (y (+ ?y 1)) (content water)))	;diag sopra dx
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 1)) (content water)))	;diag sotto sx
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water)))	;diag sotto dx
-	(pop-focus)
+	
+	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	(focus MAIN)
 )
 
 ; Controlla k-cell bottom e guess su di essa
-(defrule guessKCellBottom ;(declare (salience 10))
+(defrule guessKCellBottom (declare (salience 100))
 	(status (step ?s) (currently running))
 	(k-cell (x ?x) (y ?y) (content bot))
 	(not (exec (action guess) (x ?x) (y ?y)))
@@ -78,11 +88,13 @@
 	(assert (k-cell (x (- ?x 1)) (y (+ ?y 1)) (content water)))	;diag sopra dx
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 1)) (content water)))	;diag sotto sx
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water)))	;diag sotto dx
-	(pop-focus)
+
+	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	(focus MAIN)
 )
 
 ; Controlla k-cell LEFT e guess su di essa
-(defrule guessKCellLeft ;(declare (salience 10))
+(defrule guessKCellLeft (declare (salience 100))
 	(status (step ?s) (currently running))
 	(k-cell (x ?x) (y ?y) (content left))
 	(not (exec (action guess) (x ?x) (y ?y)))
@@ -99,11 +111,14 @@
 	(assert (k-cell (x (- ?x 1)) (y (+ ?y 1)) (content water)))	;diag sopra dx
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 1)) (content water)))	;diag sotto sx
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water)))	;diag sotto dx
-	(pop-focus)
+
+	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	(focus MAIN)
 )
 
 ; Controlla k-cell SUB e guess su di essa
-(defrule guessKCellSub ;(declare (salience 10))
+(defrule guessKCellSub (declare (salience 100))
 	(status (step ?s) (currently running))
 	(k-cell (x ?x) (y ?y) (content sub))
 	(not (exec (action guess) (x ?x) (y ?y)))
@@ -123,11 +138,14 @@
 	(assert (k-cell (x (- ?x 1)) (y (+ ?y 1)) (content water)))	;diag sopra dx
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 1)) (content water)))	;diag sotto sx
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water)))	;diag sotto dx
-	(pop-focus)
+
+	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	(focus MAIN)
 )
 
 ; Controlla k-cell right e guess su di essa
-(defrule guessKCellRight ;(declare (salience 10))
+(defrule guessKCellRight (declare (salience 100))
 	(status (step ?s)(currently running))
 	(k-cell (x ?x) (y ?y) (content right))
 	(not (exec (action guess) (x ?x) (y ?Y)))
@@ -143,11 +161,14 @@
 	(assert (k-cell (x (- ?x 1)) (y (- ?y 1)) (content water))) ; sopra-sx
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water))) ; sotto-dx
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 1)) (content water))) ; sotto-sx
-	(pop-focus)
+
+	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	(focus MAIN)
 )
 
 ; Controlla k-cell MIDDLE e guess su di essa
-(defrule guessKCellMiddle ;(declare (salience 10))
+(defrule guessKCellMiddle (declare (salience 100))
 	(status (step ?s)(currently running))
 	(k-cell (x ?x) (y ?y) (content middle))
 	(not (exec (action guess) (x ?x) (y ?Y)))
@@ -160,7 +181,10 @@
 	(assert (k-cell (x (- ?x 1)) (y (- ?y 1)) (content water))) ; sopra-sx
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water))) ; sotto-dx
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 1)) (content water))) ; sotto-sx
-	(pop-focus)
+
+	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	(focus MAIN)
 )
 
 ;  --------------------------- GUESS CELLE A FIANCO A QUELLE NOTE ---------------------------------------
@@ -178,7 +202,7 @@
 	(assert (exec (step ?s) (action guess) (x (+ ?x 1)) (y ?y)))
 	(assert (k-cell (x (+ ?x 2)) (y (- ?y 1)) (content water)))	;diag sotto sx
 	(assert (k-cell (x (+ ?x 2)) (y (+ ?y 1)) (content water)))	;diag sotto dx
-	(pop-focus)
+	(focus MAIN)
 )
 
 ; Controlla k-cell bottom e faccio guess cella soprastante
@@ -194,7 +218,7 @@
 	(assert (exec (step ?s) (action guess) (x (- ?x 1)) (y ?y)))
 	(assert (k-cell (x (- ?x 2)) (y (- ?y 1)) (content water)))	;diag sotto sx
 	(assert (k-cell (x (- ?x 2)) (y (+ ?y 1)) (content water)))	;diag sotto dx
-	(pop-focus)
+	(focus MAIN)
 )
 
 ; GUESS sulla cella a DX alla K-CELL con content=LEFT
@@ -209,7 +233,7 @@
 	(assert (exec (step ?s) (action guess) (x ?x) (y (+ ?y 1))))
 	(assert (k-cell (x (- ?x 1)) (y (+ ?y 2)) (content water)))	;diag sopra dx
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 2)) (content water)))	;diag sotto dx
-	(pop-focus)
+	(focus MAIN)
 )
 
 ; Controlla k-cell right e faccio guess cella a sinistra
@@ -225,24 +249,39 @@
 	(assert (exec (step ?s) (action guess) (x ?x) (y (- ?y 1))))
 	(assert (k-cell (x (- ?x 1)) (y (- ?y 2)) (content water))) ; sopra-sx
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 2)) (content water))) ; sotto-sx
-	(pop-focus)
+	(focus MAIN)
 )
 
-;  --------------------------- FOCUS FIRE_MOD ------------------------------------------------------
+;  --------------------------- GUESS CELLE FIRED ------------------------------------------------------
+;(defrule guess_cells_fired
+;	(status (step ?s) (currently running))
+;	(not (k-cell (x ?x) (y ?y) (content water) ) )
+;	(cell_status (kx ?x) (ky ?y) (stat fired) )
+;	(not (exec (action guess) (x ?x) (y ?y)))
+;	(moves (fires ?nf &:(> ?nf 0)) (guesses ?ng &:(> ?ng 0)))
+;	=>
+;	(assert (exec (action guess) (x ?x) (y ?y)) )
+;	(printout t "Step " ?s ":    GUESS after fire cell [" ?x "," ?y "]"crlf)
+;	(focus MAIN)
+;)
 
-; Non si sa più dove colpire -> focus al modulo dei fires
+;  --------------------------- FOCUS MODULO VAL ------------------------------------------------------
+
+; Non si sa più dove colpire -> focus al modulo valutazione dei fires
 (defrule go_to_fire (declare (salience -100))
 	(status (step ?s)(currently running))
+	;(not (cell_status (kx ?x) (ky ?y) (stat fired) ))
 	=>
 	(printout t crlf)
-	(printout t "I don't know what to do anymore: FOCUS to FIRE_MOD." crlf)
-	(focus FIRE_MOD)
+	(printout t "I don't know what to do anymore: FOCUS to VAL." crlf)
+	(focus VAL)
 )
 
 ;  --------------------------- FINE ------------------------------------------------------
 
 (defrule solve (declare (salience -300))
 	(status (step ?s)(currently running))
+	;(not (cell_status (kx ?x) (ky ?y) (stat fired) ))
 	(submarine (to_find ?to_find_s))
 	(destroyer (to_find ?to_find_d))
 	(cruiser (to_find ?to_find_c))
@@ -262,5 +301,5 @@
 	(printout t crlf)
 	(printout t "Fires left: " ?nf "   Guess left: " ?ng " "crlf)
 	(printout t crlf)
-	(pop-focus)
+	(focus MAIN)
 )
