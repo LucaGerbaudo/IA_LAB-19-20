@@ -26,6 +26,7 @@
 	(printout t crlf)
 	(printout t "Step " ?s ":    FIRE cell [" (+ ?x 2) "," ?y "] knowing [" ?x "," ?y "] top" crlf)
 	(assert (cell_status  (stat fired) (kx (+ ?x 2)) (ky ?y) )) ; tiene traccia che la cella è stata fired
+	(printout t "--------------- cell[" (+ ?x 2) "," ?y "]  fired"crlf)
 	(focus MAIN)
 )
 
@@ -42,6 +43,7 @@
 	(printout t crlf)
 	(printout t "Step " ?s ":    FIRE cell [" (- ?x 2) "," ?y "] knowing [" ?x "," ?y "] bot" crlf)
 	(assert (cell_status  (stat fired) (kx (- ?x 2)) (ky ?y) )) ; tiene traccia che la cella è stata fired
+	(printout t "--------------- cell[" (- ?x 2) "," ?y "]  fired"crlf)
 	(focus MAIN)
 )
 
@@ -58,6 +60,7 @@
 	(printout t crlf)
 	(printout t "Step " ?s ":    FIRE cell [" ?x "," (+ ?y 2) "] knowing [" ?x "," ?y "] left" crlf)
 	(assert (cell_status  (stat fired) (kx ?x)(ky (+ ?y 2)) )) ; tiene traccia che la cella è stata fired
+	(printout t "--------------- cell[" ?x "," (+ ?y 2) "]  fired"crlf)
 	(focus MAIN)
 )
 
@@ -74,5 +77,6 @@
 	(printout t crlf)
 	(printout t "Step " ?s ":    FIRE cell [" ?x "," (- ?y 2) "] knowing [" ?x "," ?y "] right" crlf)
 	(assert (cell_status  (stat fired) (kx ?x)(ky (- ?y 2)) )) ; tiene traccia che la cella è stata fired
+	(printout t "--------------- cell[" ?x "," (- ?y 2) "]  fired"crlf)
 	(focus MAIN)
 )

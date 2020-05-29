@@ -2,8 +2,8 @@
 ;  --------------  MODULO VALUTAZIONE FIRE -------------------------------
 ; OBIETTIVO: valutare quale tipo di FIRE fare in base alla situazione
 
-(defmodule VAL (import MAIN ?ALL) (import ENV ?ALL) (import AGENT ?ALL) (export ?ALL))
 
+(defmodule VAL (import MAIN ?ALL) (import ENV ?ALL) (import AGENT ?ALL) (export ?ALL))
 
 ; Decide di richiamare il modulo con Fire su 2 celle dopo se ci sono ancora incrociatori 
 (defrule decide_if_fire
@@ -37,21 +37,8 @@
 	(focus FIRE_FWD)
 )
 
-; Trova incrociatori    DA VEDEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
+;----------------------------- RANDOM FIRE -----------------------------------------
 
-;(defrule find_cruisers_orizz (declare (salience 100))
-;	(status (step ?s)(currently running))
-;	(cruiser (to_find ?to_find_c &:(> ?to_find_c 0)))
-	;(not (k-cell (x (- ?x 2)) (y ?y) (content water)) )
-	;(cell_status (kx (- ?x 1)) (ky ?y) (stat guessed) ) ; top/bot guessed
-	;(cell_status (kx ?x) (ky ?y) (stat guessed) ) 		; middle guessed
-	;(cell_status (kx (+ ?x 1)) (ky ?y) (stat guessed) ) ; top/bot guessed
-	;(not (k-cell (x (+ ?x 2)) (y ?y) (content water)) )
 
-;=>	
-;	(modify ?mvs (fires (- ?nf 1)))
-;	(modify (cruiser (to_find (- ?to_find_c 1)) ))
-;	(printout t crlf)
-;	(printout t ?to_find_c "----------- cruisers left"crlf)
-;)
+
 

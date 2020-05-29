@@ -1,6 +1,9 @@
 
 ;  -------------- AGENTE DI CHIARA -------------------------------
-; OBIETTIVO:
+; OBIETTIVO: guess su celle note in partenza e su prima cella nota come acqua 
+;			conoscendo il contenuto delle celle note
+;			Quando l'agente si trova "a corto di idee" passe il controllo ad un modulo di valutazione
+;			se non vi sono più azioni possibili termina
 
 (defmodule AGENT (import MAIN ?ALL) (import ENV ?ALL) (export ?ALL))
 
@@ -35,6 +38,14 @@
 	(slot stat (allowed-values none guessed fired) )
 )
 
+; Template per controlli su righe/colonne
+(deftemplate k-row-water
+	(slot row)
+)
+
+(deftemplate k-col-water
+	(slot col)
+)
 ;  --------------------------- INIZIALIZZAZIONE ------------------------------------------------------
 
 ; Caso in cui nessuna cella nota all' inizio del gioco
@@ -45,6 +56,50 @@
 	;(printout t "k-per-row" ?r ": " ?n crlf)
 	(printout t "No data available for any cell" crlf)
 )
+
+; Asserisce acqua nelle righe con k-per-row = 0
+(defrule setWaterKRow (declare (salience 500))
+	(status (step ?s)(currently running))
+	(k-per-row (row ?r) (num 0))
+	(not (k-row-water (row ?r)))
+=>
+	(printout t "WATER on ROW " ?r crlf)
+	(assert (k-cell (x ?r) (y 0) (content water)))
+	(assert (k-cell (x ?r) (y 1) (content water)))
+	(assert (k-cell (x ?r) (y 2) (content water)))
+	(assert (k-cell (x ?r) (y 3) (content water)))
+	(assert (k-cell (x ?r) (y 4) (content water)))
+	(assert (k-cell (x ?r) (y 5) (content water)))
+	(assert (k-cell (x ?r) (y 6) (content water)))
+	(assert (k-cell (x ?r) (y 7) (content water)))
+	(assert (k-cell (x ?r) (y 8) (content water)))
+	(assert (k-cell (x ?r) (y 9) (content water)))
+	(assert (k-row-water (row ?r)))
+	(printout t crlf)
+)
+
+; Asserisce acqua nelle colonne con k-per-col = 0
+(defrule setWaterKCol (declare (salience 500))
+	(status (step ?s)(currently running))
+	(k-per-col (col ?c) (num 0))
+	(not (k-col-water (col ?c)))
+=>
+	(printout t "WATER on COL " ?c crlf)
+	(assert (k-cell (x 0) (y ?c) (content water)))
+	(assert (k-cell (x 1) (y ?c) (content water)))
+	(assert (k-cell (x 2) (y ?c) (content water)))
+	(assert (k-cell (x 3) (y ?c) (content water)))
+	(assert (k-cell (x 4) (y ?c) (content water)))
+	(assert (k-cell (x 5) (y ?c) (content water)))
+	(assert (k-cell (x 6) (y ?c) (content water)))
+	(assert (k-cell (x 7) (y ?c) (content water)))
+	(assert (k-cell (x 8) (y ?c) (content water)))
+	(assert (k-cell (x 9) (y ?c) (content water)))
+	(assert (k-col-water (col ?c)))
+	(printout t crlf)
+)
+
+;  --------------------------- GUESS CELLE NOTE ------------------------------------------------------
 
 ; Controlla k-cell top e guess su di essa
 (defrule guessKCellTop (declare (salience 100))
@@ -250,6 +305,66 @@
 	(assert (k-cell (x (- ?x 1)) (y (- ?y 2)) (content water))) ; sopra-sx
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 2)) (content water))) ; sotto-sx
 	(focus MAIN)
+)
+
+;  --------------------------- GESTIONE NAVI TROVATE ------------------------------------------------
+
+; Cerca incrociatori  verticali
+(defrule find_cruisers_orizz 
+	(status (step ?s)(currently running))
+	?ctf <- (cruiser (to_find ?to_find_c ))
+	(cruiser (to_find ?to_find_c &:(> ?to_find_c 0)))
+	(or			; middle guessed or fired
+		(cell_status (kx ?x) (ky ?y) (stat guessed) ) 
+		(cell_status (kx ?x) (ky ?y) (stat fired) ) 
+	)
+	(or			; top guessed or fired
+		(cell_status (kx ?x_top &:(eq ?x_top (- ?x 1))) (ky ?y) (stat guessed) )
+		(cell_status (kx ?x_top &:(eq ?x_top (- ?x 1))) (ky ?y) (stat fired) )
+	)	
+	(or			; bot guessed or fired
+		(cell_status (kx ?x_bot &:(eq ?x_bot (+ ?x 1))) (ky ?y) (stat guessed) )	
+		(cell_status (kx ?x_bot &:(eq ?x_bot (+ ?x 1))) (ky ?y) (stat fired) )
+	)
+	;water alle estremità
+	(k-cell (x ?x_top2 &:(eq ?x_top2 (- ?x 2))) (y ?y) (content water)) 
+	(k-cell (x ?x_bot2 &:(eq ?x_bot2 (+ ?x 2))) (y ?y) (content water)) 
+
+=>	
+	(modify ?ctf (to_find (- ?to_find_c 1)))
+	;(assert (cruiser (to_find (- ?to_find_c 1)) ))
+	(printout t crlf)
+	(printout t "Cruiser found!!!   ")
+	(printout t ?to_find_c " cruisers left"crlf)
+)
+
+; Cerca incrociatori  orizzontali
+(defrule find_cruisers_vert 
+	(status (step ?s)(currently running))
+	?ctf <- (cruiser (to_find ?to_find_c ))
+	(cruiser (to_find ?to_find_c &:(> ?to_find_c 0)))
+	(or			; middle guessed or fired
+		(cell_status (kx ?x) (ky ?y) (stat guessed) ) 
+		(cell_status (kx ?x) (ky ?y) (stat fired) ) 
+	)
+	(or			; top guessed or fired
+		(cell_status (kx ?x) (ky ?y_left &:(eq ?y_left (- ?y 1))) (stat guessed) )
+		(cell_status (kx ?x) (ky ?y_left &:(eq ?y_left (- ?y 1))) (stat fired) )
+	)	
+	(or			; right guessed or fired
+		(cell_status (kx ?x) (ky ?y_right &:(eq ?y_right (+ ?y 1))) (stat guessed) )	
+		(cell_status (kx ?x) (ky ?y_right &:(eq ?y_right (+ ?y 1))) (stat fired) )
+	)
+	;water alle estremità
+	(k-cell (x ?x) (y ?y_left2 &:(eq ?y_left2 (- ?y 2))) (content water)) 
+	(k-cell (x ?x) (y ?y_right2 &:(eq ?y_right2 (+ ?y 2))) (content water)) 
+
+=>	
+	(modify ?ctf (to_find (- ?to_find_c 1)))
+	;(assert (cruiser (to_find (- ?to_find_c 1)) ))
+	(printout t crlf)
+	(printout t "Cruiser found!!!   ")
+	(printout t ?to_find_c " cruisers left"crlf)
 )
 
 ;  --------------------------- GUESS CELLE FIRED ------------------------------------------------------
