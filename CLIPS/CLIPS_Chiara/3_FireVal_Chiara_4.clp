@@ -47,6 +47,8 @@
 	(k-per-row (row ?r) (num ?nr &:(> ?nr 0)))
 	(k-per-col (col ?c) (num ?nc &:(> ?nc 0)))
 
+	(not (exec (action fire) (x ?r) (y ?c) )) ; se non eseguita fire 
+	(not (exec (action guess) (x ?r) (y ?c) )) ; se non eseguita guess 
 	(not (k-cell (x ?r) (y ?c) (content water)) )
 	(not  (cell_status (kx ?r) (ky ?c) (stat guessed) ))
 	(not  (cell_status (kx ?r) (ky ?c) (stat fired) ))
