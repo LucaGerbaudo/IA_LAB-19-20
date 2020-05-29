@@ -125,6 +125,33 @@
 	(printout t crlf)
 )
 
+; Asserisce acqua tutte le celle che contornano la tabella di gioco 
+; per permettere alcuni controlli
+(defrule setLimitsAsWater (declare (salience 500))
+	(status (step ?s)(currently running))
+=>
+	; bordo superiore
+	(assert (k-cell (x -1) (y 0)))	(assert (k-cell (x -1) (y 1)))	(assert (k-cell (x -1) (y 2)))
+	(assert (k-cell (x -1) (y 3)))	(assert (k-cell (x -1) (y 4)))	(assert (k-cell (x -1) (y 5)))
+	(assert (k-cell (x -1) (y 6)))	(assert (k-cell (x -1) (y 7)))	(assert (k-cell (x -1) (y 8)))
+	(assert (k-cell (x -1) (y 9)))
+	;bordo sinistro
+	(assert (k-cell (x 0) (y -1)))	(assert (k-cell (x 1) (y -1)))	(assert (k-cell (x 2) (y -1)))
+	(assert (k-cell (x 3) (y -1)))	(assert (k-cell (x 4) (y -1)))	(assert (k-cell (x 5) (y -1)))
+	(assert (k-cell (x 6) (y -1)))	(assert (k-cell (x 7) (y -1)))	(assert (k-cell (x 8) (y -1)))
+	(assert (k-cell (x 9) (y -1)))
+	;bordo destro
+	(assert (k-cell (x 0) (y 10)))	(assert (k-cell (x 1) (y 10)))	(assert (k-cell (x 2) (y 10)))
+	(assert (k-cell (x 3) (y 10)))	(assert (k-cell (x 4) (y 10)))	(assert (k-cell (x 5) (y 10)))
+	(assert (k-cell (x 6) (y 10)))	(assert (k-cell (x 7) (y 10)))	(assert (k-cell (x 8) (y 10)))
+	(assert (k-cell (x 9) (y 10)))
+	; bordo inferiore
+	(assert (k-cell (x 10) (y 0)))	(assert (k-cell (x 10) (y 1)))	(assert (k-cell (x 10) (y 2)))
+	(assert (k-cell (x 10) (y 3)))	(assert (k-cell (x 10) (y 4)))	(assert (k-cell (x 10) (y 5)))
+	(assert (k-cell (x 10) (y 6)))	(assert (k-cell (x 10) (y 7)))	(assert (k-cell (x 10) (y 8)))
+	(assert (k-cell (x 10) (y 9)))
+)
+
 ;  --------------------------- GUESS CELLE NOTE ------------------------------------------------------
 
 ; Controlla k-cell top e guess su di essa
@@ -488,7 +515,7 @@
 ;  --------------------------- FOCUS MODULO VAL ------------------------------------------------------
 
 ; Non si sa più dove colpire -> focus al modulo valutazione dei fires
-(defrule go_to_fire (declare (salience -100))
+(defrule go_to_fire (declare (salience -300))
 	(status (step ?s)(currently running))
 	;(not (cell_status (kx ?x) (ky ?y) (stat fired) ))
 	=>
@@ -499,7 +526,7 @@
 
 ;  --------------------------- FINE ------------------------------------------------------
 
-(defrule solve (declare (salience -300))
+(defrule solve (declare (salience -500))
 	(status (step ?s)(currently running))
 	;(not (cell_status (kx ?x) (ky ?y) (stat fired) ))
 	(submarine (to_find ?to_find_s))
