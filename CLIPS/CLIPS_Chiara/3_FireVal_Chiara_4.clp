@@ -5,6 +5,7 @@
 
 (defmodule VAL (import MAIN ?ALL) (import ENV ?ALL) (import AGENT ?ALL) (export ?ALL))
 
+;----------------------------- FIRE PER CERCARE INCROCIATORI O CORAZZATE -----------------------------
 ; Decide di richiamare il modulo con Fire su 2 celle dopo se ci sono ancora incrociatori 
 (defrule decide_if_fire
 	(status (step ?s)(currently running))
@@ -39,6 +40,21 @@
 
 ;----------------------------- RANDOM FIRE -----------------------------------------
 
+(defrule decide_if_fire_random (declare (salience -100))
+	(status (step ?s)(currently running))
+	(moves (fires ?nf &:(> ?nf 0)) (guesses ?ng &:(> ?ng 0)))
+	; nel caso in cui nella cella 
+	(k-per-row (row ?r) (num ?nr &:(> ?nr 0)))
+	(k-per-col (col ?c) (num ?nc &:(> ?nc 0)))
 
+	(not (k-cell (x ?r) (y ?c) (content water)) )
+	(not  (cell_status (kx ?r) (ky ?c) (stat guessed) ))
+	(not  (cell_status (kx ?r) (ky ?c) (stat fired) ))
+=>
+	(printout t crlf)
+	(printout t "Step " ?s ":   RANDOM FIRE cell [" ?r  "," ?c "] "crlf)
+	(assert (exec (step ?s) (action fire) (x ?r ) (y ?c) ))
+	(focus MAIN)
+)
 
 

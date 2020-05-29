@@ -42,10 +42,36 @@
 (deftemplate k-row-water
 	(slot row)
 )
-
 (deftemplate k-col-water
 	(slot col)
 )
+
+; Template per tenere traccia degli incrociatori trovati
+(deftemplate cruiser_vert_found
+	(slot xtop)
+	(slot xmid)
+	(slot xbot)
+	(slot y)
+)
+(deftemplate cruiser_orizz_found
+	(slot x)
+	(slot ysx)
+	(slot ymid)
+	(slot ydx)
+)
+
+; Template per tenere traccia dei cacciatorpedinieri
+(deftemplate destroyer_vert_found
+	(slot xtop)
+	(slot xbot)
+	(slot y)
+)
+(deftemplate destroyer_orizz_found
+	(slot x)
+	(slot ysx)
+	(slot ydx)
+)
+
 ;  --------------------------- INIZIALIZZAZIONE ------------------------------------------------------
 
 ; Caso in cui nessuna cella nota all' inizio del gioco
@@ -121,7 +147,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water)))	;diag sotto dx
 	
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -168,7 +194,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water)))	;diag sotto dx
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -177,13 +203,16 @@
 	(status (step ?s) (currently running))
 	(k-cell (x ?x) (y ?y) (content sub))
 	(not (exec (action guess) (x ?x) (y ?y)))
-	(submarine (to_find ?to_find &:(> ?to_find 0)) ) ; per contare num di sottomarini da trovare
+	?stf <- (submarine (to_find ?to_find_s &:(> ?to_find_s 0)) ) ; per contare num di sottomarini da trovare
 	(moves (fires ?nf &:(> ?nf 0)) (guesses ?ng &:(> ?ng 0)))
 =>
 	(printout t crlf)
 	(printout t "Step " ?s ":    GUESS cell [" ?x "," ?y "] sub"crlf)
 	(assert (exec (step ?s) (action guess) (x ?x) (y ?y)))	;guess K-CELL sub
-    (assert (submarine (to_find (- ?to_find 1))))  ; decremento numero sottomarini da trovare
+    (modify ?stf (to_find (- ?to_find_s 1))) ; decremento numero sottomarini da trovare
+	(printout t crlf)
+	(printout t "SUBMARINE FOUND!!")
+	(printout t crlf)
 	; Asserisco WATER attorno a K-CELL SUB
 	(assert (k-cell (x (+ ?x 1)) (y ?y) (content water))) 	;sotto
 	(assert (k-cell (x (- ?x 1)) (y ?y) (content water))) 	;sopra
@@ -195,7 +224,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water)))	;diag sotto dx
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -218,7 +247,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 1)) (content water))) ; sotto-sx
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -238,7 +267,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 1)) (content water))) ; sotto-sx
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -257,6 +286,9 @@
 	(assert (exec (step ?s) (action guess) (x (+ ?x 1)) (y ?y)))
 	(assert (k-cell (x (+ ?x 2)) (y (- ?y 1)) (content water)))	;diag sotto sx
 	(assert (k-cell (x (+ ?x 2)) (y (+ ?y 1)) (content water)))	;diag sotto dx
+
+	(assert (cell_status (kx (+ ?x 1)) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	;(printout t "--------------- cell[" (+ ?x 1) "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -273,6 +305,9 @@
 	(assert (exec (step ?s) (action guess) (x (- ?x 1)) (y ?y)))
 	(assert (k-cell (x (- ?x 2)) (y (- ?y 1)) (content water)))	;diag sotto sx
 	(assert (k-cell (x (- ?x 2)) (y (+ ?y 1)) (content water)))	;diag sotto dx
+
+	(assert (cell_status (kx (- ?x 1)) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	;(printout t "--------------- cell[" (- ?x 1) "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -288,6 +323,9 @@
 	(assert (exec (step ?s) (action guess) (x ?x) (y (+ ?y 1))))
 	(assert (k-cell (x (- ?x 1)) (y (+ ?y 2)) (content water)))	;diag sopra dx
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 2)) (content water)))	;diag sotto dx
+
+	(assert (cell_status (kx ?x) (ky (+ ?y 1)) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	;(printout t "--------------- cell[" ?x "," (+ ?y 1) "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -304,16 +342,20 @@
 	(assert (exec (step ?s) (action guess) (x ?x) (y (- ?y 1))))
 	(assert (k-cell (x (- ?x 1)) (y (- ?y 2)) (content water))) ; sopra-sx
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 2)) (content water))) ; sotto-sx
+
+	(assert (cell_status (kx ?x) (ky (- ?y 1)) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	;(printout t "--------------- cell[" ?x "," (- ?y 1) "]  guessed"crlf)
 	(focus MAIN)
 )
 
 ;  --------------------------- GESTIONE NAVI TROVATE ------------------------------------------------
 
 ; Cerca incrociatori  verticali
-(defrule find_cruisers_orizz 
+(defrule find_cruisers_vert 
 	(status (step ?s)(currently running))
 	?ctf <- (cruiser (to_find ?to_find_c ))
 	(cruiser (to_find ?to_find_c &:(> ?to_find_c 0)))
+	
 	(or			; middle guessed or fired
 		(cell_status (kx ?x) (ky ?y) (stat guessed) ) 
 		(cell_status (kx ?x) (ky ?y) (stat fired) ) 
@@ -329,17 +371,22 @@
 	;water alle estremità
 	(k-cell (x ?x_top2 &:(eq ?x_top2 (- ?x 2))) (y ?y) (content water)) 
 	(k-cell (x ?x_bot2 &:(eq ?x_bot2 (+ ?x 2))) (y ?y) (content water)) 
-
+	; se non già trovata quella nave
+	(not (cruiser_vert_found 
+		(xtop ?xtop &:(eq ?xtop (- ?x 1)))
+		(xmid ?x)
+		(xbot ?xbot &:(eq ?xbot (+ ?x 1))) 
+		))
 =>	
 	(modify ?ctf (to_find (- ?to_find_c 1)))
-	;(assert (cruiser (to_find (- ?to_find_c 1)) ))
+	(assert (cruiser_vert_found (xtop (- ?x 1))	(xmid ?x) (xbot (+ ?x 1)) ))
 	(printout t crlf)
-	(printout t "Cruiser found!!!   ")
-	(printout t ?to_find_c " cruisers left"crlf)
+	(printout t "VERTICAL CRUISER FOUND!!")
+	(printout t crlf)
 )
 
 ; Cerca incrociatori  orizzontali
-(defrule find_cruisers_vert 
+(defrule find_cruisers_orizz 
 	(status (step ?s)(currently running))
 	?ctf <- (cruiser (to_find ?to_find_c ))
 	(cruiser (to_find ?to_find_c &:(> ?to_find_c 0)))
@@ -358,13 +405,71 @@
 	;water alle estremità
 	(k-cell (x ?x) (y ?y_left2 &:(eq ?y_left2 (- ?y 2))) (content water)) 
 	(k-cell (x ?x) (y ?y_right2 &:(eq ?y_right2 (+ ?y 2))) (content water)) 
-
+	; se non già trovata quella nave
+	(not (cruiser_orizz_found 
+		 (x ?x) (ysx ?yleft &:(eq ?yleft (- ?y 1))) 
+		 (ymid ?y) 
+		 (ydx ?yright &:(eq ?yright (+ ?y 1))) 
+	)) 
 =>	
 	(modify ?ctf (to_find (- ?to_find_c 1)))
-	;(assert (cruiser (to_find (- ?to_find_c 1)) ))
+	(assert (cruiser_orizz_found (x ?x) (ysx (- ?y 1)) (ymid ?y) (ydx (+ ?y 1)) )) 
 	(printout t crlf)
-	(printout t "Cruiser found!!!   ")
-	(printout t ?to_find_c " cruisers left"crlf)
+	(printout t "HORIZONTAL CRUISER FOUND!!")
+	(printout t crlf)
+)
+
+; Cerca cacciatorpedinieri  verticali
+(defrule find_destroyer_vert 
+	(status (step ?s)(currently running))
+	?ctf <- (destroyer (to_find ?to_find_c ))
+	(destroyer (to_find ?to_find_c &:(> ?to_find_c 0)))
+	
+	(or			; top guessed or fired
+		(cell_status (kx ?x) (ky ?y) (stat guessed) ) 
+		(cell_status (kx ?x) (ky ?y) (stat fired) ) 
+	)
+	(or			; bot guessed or fired
+		(cell_status (kx ?x_bot &:(eq ?x_bot (+ ?x 1))) (ky ?y) (stat guessed) )	
+		(cell_status (kx ?x_bot &:(eq ?x_bot (+ ?x 1))) (ky ?y) (stat fired) )
+	)
+	;water alle estremità
+	(k-cell (x ?x_top2 &:(eq ?x_top2 (- ?x 1))) (y ?y) (content water)) 
+	(k-cell (x ?x_bot2 &:(eq ?x_bot2 (+ ?x 2))) (y ?y) (content water)) 
+	; se non già trovata quella nave
+	(not (destroyer_vert_found (xtop ?x) (xbot ?xbot &:(eq ?xbot (+ ?x 1))) (y ?y) ))
+=>	
+	(modify ?ctf (to_find (- ?to_find_c 1)))
+	(assert (destroyer_vert_found (xtop  ?x ) (xbot (+ ?x 1)) (y ?y)))
+	(printout t crlf)
+	(printout t "VERTICAL DESTROYER FOUND!!")
+	(printout t crlf)
+)
+
+; Cerca cacciatorpedinieri orizzontali
+(defrule find_destroyer_orizz 
+	(status (step ?s)(currently running))
+	?ctf <- (destroyer (to_find ?to_find_c ))
+	(destroyer (to_find ?to_find_c &:(> ?to_find_c 0)))
+	(or			; sx guessed or fired
+		(cell_status (kx ?x) (ky ?y) (stat guessed) ) 
+		(cell_status (kx ?x) (ky ?y) (stat fired) ) 
+	)
+	(or			; right guessed or fired
+		(cell_status (kx ?x) (ky ?y_right &:(eq ?y_right (+ ?y 1))) (stat guessed) )	
+		(cell_status (kx ?x) (ky ?y_right &:(eq ?y_right (+ ?y 1))) (stat fired) )
+	)
+	;water alle estremità
+	(k-cell (x ?x) (y ?y_left2 &:(eq ?y_left2 (- ?y 1))) (content water)) 
+	(k-cell (x ?x) (y ?y_right2 &:(eq ?y_right2 (+ ?y 2))) (content water)) 
+	; se non già trovata quella nave
+	(not (destroyer_orizz_found (x ?x) (ysx ?y) (ydx ?yright &:(eq ?yright (+ ?y 1))) )) 
+=>	
+	(modify ?ctf (to_find (- ?to_find_c 1)))
+	(assert (destroyer_orizz_found (x ?x) (ysx  ?y ) (ydx (+ ?y 1)) )) 
+	(printout t crlf)
+	(printout t "HORIZONTAL DESTROYER FOUND!!")
+	(printout t crlf)
 )
 
 ;  --------------------------- GUESS CELLE FIRED ------------------------------------------------------
@@ -387,8 +492,8 @@
 	(status (step ?s)(currently running))
 	;(not (cell_status (kx ?x) (ky ?y) (stat fired) ))
 	=>
-	(printout t crlf)
-	(printout t "I don't know what to do anymore: FOCUS to VAL." crlf)
+	;(printout t crlf)
+	;(printout t "I don't know what to do anymore: FOCUS to VAL." crlf)
 	(focus VAL)
 )
 
