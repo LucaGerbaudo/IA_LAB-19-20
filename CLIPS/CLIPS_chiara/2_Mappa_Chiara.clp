@@ -108,11 +108,10 @@
 
 (k-cell (x 2) (y 2) (content top))
 (k-cell (x 0) (y 9) (content water))
-(k-cell (x 0) (y 5) (content bot))
+(k-cell (x 0) (y 5) (content left))
 (k-cell (x 4) (y 5) (content top))
 (k-cell (x 7) (y 1) (content sub))
-;(k-cell (x 8) (y 3) (content left))
 (k-cell (x 8) (y 5) (content right))
-(k-cell (x 9) (y 9) (content top))
+(k-cell (x 9) (y 9) (content bot))
 
 )
