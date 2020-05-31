@@ -191,7 +191,7 @@
 	
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
 	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
-	(focus MAIN)
+	(pop-focus)
 )
 
 ; Controlla k-cell bottom e guess su di essa
@@ -214,7 +214,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water)))	;diag sotto dx
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	(focus MAIN)
+	(pop-focus)
 )
 
 ; Controlla k-cell LEFT e guess su di essa
@@ -238,7 +238,7 @@
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
 	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
-	(focus MAIN)
+	(pop-focus)
 )
 
 ; Controlla k-cell SUB e guess su di essa
@@ -268,7 +268,7 @@
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
 	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
-	(focus MAIN)
+	(pop-focus)
 )
 
 ; Controlla k-cell right e guess su di essa
@@ -291,7 +291,7 @@
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
 	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
-	(focus MAIN)
+	(pop-focus)
 )
 
 ; Controlla k-cell MIDDLE e guess su di essa
@@ -311,7 +311,7 @@
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
 	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
-	(focus MAIN)
+	(pop-focus)
 )
 
 ;  --------------------------- GUESS CELLE A FIANCO A QUELLE NOTE ---------------------------------------
@@ -332,7 +332,7 @@
 
 	(assert (cell_status (kx (+ ?x 1)) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
 	;(printout t "--------------- cell[" (+ ?x 1) "," ?y "]  guessed"crlf)
-	(focus MAIN)
+	(pop-focus)
 )
 
 ; Controlla k-cell bottom e faccio guess cella soprastante
@@ -351,7 +351,7 @@
 
 	(assert (cell_status (kx (- ?x 1)) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
 	;(printout t "--------------- cell[" (- ?x 1) "," ?y "]  guessed"crlf)
-	(focus MAIN)
+	(pop-focus)
 )
 
 ; GUESS sulla cella a DX alla K-CELL con content=LEFT
@@ -369,7 +369,7 @@
 
 	(assert (cell_status (kx ?x) (ky (+ ?y 1)) (stat guessed) )) ; tiene traccia che la cella è stata guessed
 	;(printout t "--------------- cell[" ?x "," (+ ?y 1) "]  guessed"crlf)
-	(focus MAIN)
+	(pop-focus)
 )
 
 ; Controlla k-cell right e faccio guess cella a sinistra
@@ -388,7 +388,7 @@
 
 	(assert (cell_status (kx ?x) (ky (- ?y 1)) (stat guessed) )) ; tiene traccia che la cella è stata guessed
 	;(printout t "--------------- cell[" ?x "," (- ?y 1) "]  guessed"crlf)
-	(focus MAIN)
+	(pop-focus)
 )
 
 ;  --------------------------- GESTIONE NAVI TROVATE ------------------------------------------------
@@ -606,7 +606,7 @@
 ;	=>
 ;	(assert (exec (action guess) (x ?x) (y ?y)) )
 ;	(printout t "Step " ?s ":    GUESS after fire cell [" ?x "," ?y "]"crlf)
-;	(focus MAIN)
+;	(pop-focus)
 ;)
 
 ;  --------------------------- FOCUS MODULO VAL ------------------------------------------------------
@@ -645,5 +645,5 @@
 	(printout t crlf)
 	(printout t "Fires left: " ?nf "   Guess left: " ?ng " "crlf)
 	(printout t crlf)
-	(focus MAIN)
+	(pop-focus)
 )
