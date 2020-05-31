@@ -72,6 +72,22 @@
 	(slot ydx)
 )
 
+; Template per tenere traccia delle corazzate trovate
+(deftemplate battleship_vert_found
+	(slot xtop)
+	(slot xmid)
+	(slot xmid1)
+	(slot xbot)
+	(slot y)
+)
+(deftemplate battleship_orizz_found
+	(slot x)
+	(slot ysx)
+	(slot ymid)
+	(slot ymid1)
+	(slot ydx)
+)
+
 ;  --------------------------- INIZIALIZZAZIONE ------------------------------------------------------
 
 ; Caso in cui nessuna cella nota all' inizio del gioco
@@ -403,10 +419,11 @@
 		(xtop ?xtop &:(eq ?xtop (- ?x 1)))
 		(xmid ?x)
 		(xbot ?xbot &:(eq ?xbot (+ ?x 1))) 
+		(y ?y)
 		))
 =>	
 	(modify ?ctf (to_find (- ?to_find_c 1)))
-	(assert (cruiser_vert_found (xtop (- ?x 1))	(xmid ?x) (xbot (+ ?x 1)) ))
+	(assert (cruiser_vert_found (xtop (- ?x 1))	(xmid ?x) (xbot (+ ?x 1)) (y ?y) ))
 	(printout t crlf)
 	(printout t "VERTICAL CRUISER FOUND!!")
 	(printout t crlf)
@@ -496,6 +513,86 @@
 	(assert (destroyer_orizz_found (x ?x) (ysx  ?y ) (ydx (+ ?y 1)) )) 
 	(printout t crlf)
 	(printout t "HORIZONTAL DESTROYER FOUND!!")
+	(printout t crlf)
+)
+
+
+; Cerca corazzate  verticali
+(defrule find_battleship_vert 
+	(status (step ?s)(currently running))
+	?btf <- (battleship (to_find ?to_find_b ))
+	(battleship (to_find ?to_find_b &:(> ?to_find_b 0)))
+	
+	(or			; middle guessed or fired
+		(cell_status (kx ?x) (ky ?y) (stat guessed) ) 
+		(cell_status (kx ?x) (ky ?y) (stat fired) ) 
+	)
+	(or			; top guessed or fired
+		(cell_status (kx ?x_top &:(eq ?x_top (- ?x 1))) (ky ?y) (stat guessed) )
+		(cell_status (kx ?x_top &:(eq ?x_top (- ?x 1))) (ky ?y) (stat fired) )
+	)	
+	(or			; middle1 guessed or fired
+		(cell_status (kx ?x_mid &:(eq ?x_mid (+ ?x 1))) (ky ?y) (stat guessed) )	
+		(cell_status (kx ?x_mid &:(eq ?x_mid (+ ?x 1))) (ky ?y) (stat fired) )
+	)
+	(or			; bot guessed or fired
+		(cell_status (kx ?x_bot &:(eq ?x_bot (+ ?x 2))) (ky ?y) (stat guessed) )	
+		(cell_status (kx ?x_bot &:(eq ?x_bot (+ ?x 2))) (ky ?y) (stat fired) )
+	)
+	;water alle estremità
+	(k-cell (x ?x_top2 &:(eq ?x_top2 (- ?x 2))) (y ?y) (content water)) 
+	(k-cell (x ?x_bot2 &:(eq ?x_bot2 (+ ?x 3))) (y ?y) (content water)) 
+	; se non già trovata quella nave
+	(not (battleship_vert_found 
+		(xtop ?xtop &:(eq ?xtop (- ?x 1)))
+		(xmid ?x)
+		(xmid1 ?xmid &:(eq ?xmid (+ ?x 1))) 
+		(xbot ?xbot &:(eq ?xbot (+ ?x 2))) 
+		))
+=>	
+	(modify ?btf (to_find (- ?to_find_b 1)))
+	(assert (battleship_vert_found (xtop (- ?x 1))	(xmid ?x) (xmid1 (+ ?x 1)) (xbot (+ ?x 2)) ))
+	(printout t crlf)
+	(printout t "VERTICAL BATTLESHIP FOUND!!")
+	(printout t crlf)
+)
+
+; Cerca corazzate  orizzontali
+(defrule find_battleship_orizz 
+	(status (step ?s)(currently running))
+	?btf <- (battleship (to_find ?to_find_b ))
+	(battleship (to_find ?to_find_b &:(> ?to_find_b 0)))
+	(or			; middle guessed or fired
+		(cell_status (kx ?x) (ky ?y) (stat guessed) ) 
+		(cell_status (kx ?x) (ky ?y) (stat fired) ) 
+	)
+	(or			; top guessed or fired
+		(cell_status (kx ?x) (ky ?y_left &:(eq ?y_left (- ?y 1))) (stat guessed) )
+		(cell_status (kx ?x) (ky ?y_left &:(eq ?y_left (- ?y 1))) (stat fired) )
+	)	
+	(or			; middle1 guessed or fired
+		(cell_status (kx ?x) (ky ?y_mid &:(eq ?y_mid (+ ?y 1))) (stat guessed) )	
+		(cell_status (kx ?x) (ky ?y_mid &:(eq ?y_mid (+ ?y 1))) (stat fired) )
+	)
+	(or			; right guessed or fired
+		(cell_status (kx ?x) (ky ?y_right &:(eq ?y_right (+ ?y 2))) (stat guessed) )	
+		(cell_status (kx ?x) (ky ?y_right &:(eq ?y_right (+ ?y 2))) (stat fired) )
+	)
+	;water alle estremità
+	(k-cell (x ?x) (y ?y_left2 &:(eq ?y_left2 (- ?y 2))) (content water)) 
+	(k-cell (x ?x) (y ?y_right2 &:(eq ?y_right2 (+ ?y 3))) (content water)) 
+	; se non già trovata quella nave
+	(not (battleship_orizz_found 
+		 (x ?x) (ysx ?yleft &:(eq ?yleft (- ?y 1))) 
+		 (ymid ?y) 
+		 (ymid1 ?ymid &:(eq ?ymid (+ ?y 1)))
+		 (ydx ?yright &:(eq ?yright (+ ?y 2))) 
+	)) 
+=>	
+	(modify ?btf (to_find (- ?to_find_b 1)))
+	(assert (battleship_orizz_found (x ?x) (ysx (- ?y 1)) (ymid ?y) (ymid1 (+ ?y 1)) (ydx (+ ?y 2)) )) 
+	(printout t crlf)
+	(printout t "HORIZONTAL BATTLESHIP FOUND!!")
 	(printout t crlf)
 )
 
