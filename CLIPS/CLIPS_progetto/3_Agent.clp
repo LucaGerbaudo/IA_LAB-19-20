@@ -1,5 +1,5 @@
 
-;  -------------- AGENTE DI CHIARA -------------------------------
+;  -------------- AGENTE -------------------------------
 ; OBIETTIVO: guess su celle note in partenza e su prima cella nota come acqua 
 ;			conoscendo il contenuto delle celle note
 ;			Quando l'agente si trova "a corto di idee" passe il controllo ad un modulo di valutazione
