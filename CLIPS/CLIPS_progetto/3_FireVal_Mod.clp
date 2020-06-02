@@ -42,7 +42,7 @@
 
 ;(defrule decide_if_fire_random (declare (salience -100))
 ;	(status (step ?s)(currently running))
-;	(moves (fires ?nf &:(> ?nf 0)) (guesses ?ng &:(> ?ng 0)))
+;	(moves (fires ?nf &:(> ?nf 0)))
 ;	; nel caso in cui nella cella 
 ;	(k-per-row (row ?r) (num ?nr &:(> ?nr 0)))
 ;	(k-per-col (col ?c) (num ?nc &:(> ?nc 0)))
