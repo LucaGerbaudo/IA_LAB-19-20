@@ -70,7 +70,8 @@
 	(not (exec (action fire) (x ?x) (y ?y)))
 	(not (exec (action guess) (x ?x) (y ?y)))
 =>
-	(printout t "Step " ?s ": FIRE ON [" ?x ", " ?y "] based on best K-ROW and K-COL" crlf)
+	(printout t crlf)
+	(printout t "Step " ?s ":    FIRE ON [" ?x ", " ?y "] based on best K-ROW and K-COL" crlf)
 	(assert (exec (step ?s) (action fire) (x ?x) (y ?y)))
 	;(pop-focus)
 	(focus MAIN)
@@ -85,9 +86,10 @@
 	?index <- (indexFire (i ?i))
 	(not (k-cell (x ?x) (y ?i)))
 	(not (exec (action fire) (x ?x) (y ?i)))
-	(not (exec (action guess) (x ?x) (y ?y)))
+	(not (exec (action guess) (x ?x) (y ?i)))
 =>
-	(printout t "FIRE ON [" ?x ", " ?i "] based on best K-ROW" crlf)
+	(printout t crlf)
+	(printout t "Step " ?s ":    FIRE ON [" ?x ", " ?i "] based on best K-ROW" crlf)
 	(assert (exec (step ?s) (action fire) (x ?x) (y ?i)))
 	(modify ?index (i (+ ?i 2))) ; Aumento indice di due: prossima fire stessa riga, ma due celle a dx
 	;(pop-focus)
