@@ -68,6 +68,7 @@
 	(moves (fires ?nf &:(> ?nf 0)))
 	(not (k-cell (x ?x) (y ?y)))
 	(not (exec (action fire) (x ?x) (y ?y)))
+	(not (exec (action guess) (x ?x) (y ?y)))
 =>
 	(printout t "Step " ?s ": FIRE ON [" ?x ", " ?y "] based on best K-ROW and K-COL" crlf)
 	(assert (exec (step ?s) (action fire) (x ?x) (y ?y)))
@@ -84,6 +85,7 @@
 	?index <- (indexFire (i ?i))
 	(not (k-cell (x ?x) (y ?i)))
 	(not (exec (action fire) (x ?x) (y ?i)))
+	(not (exec (action guess) (x ?x) (y ?y)))
 =>
 	(printout t "FIRE ON [" ?x ", " ?i "] based on best K-ROW" crlf)
 	(assert (exec (step ?s) (action fire) (x ?x) (y ?i)))
