@@ -112,6 +112,7 @@
 (k-cell (x 4) (y 5) (content top))
 (k-cell (x 7) (y 1) (content sub))
 (k-cell (x 8) (y 5) (content right))
+(k-cell (x 8) (y 3) (content right))
 (k-cell (x 9) (y 9) (content bot))
 
 (k-per-row (row 0) (num 2))
