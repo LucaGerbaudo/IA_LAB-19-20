@@ -415,7 +415,8 @@
 	(not (exec (action fire) (x ?x-up &:(eq ?x-up(- ?x 1))) (y ?y)))
 	;(not (exec (action guess) (x ?x-bot &:(eq ?x-up(+ ?x 1))) (y ?y)))
 =>
-	(printout t "GUESS ON [" (- ?x 1) ", " ?y "] knowing [" ?x "," ?y "] MIDDLE" crlf)
+	;(printout t "GUESS ON [" (- ?x 1) ", " ?y "] knowing [" ?x "," ?y "] MIDDLE" crlf)
+	(printout t "Step " ?s ":    GUESS cell [" (- ?x 1) ", " ?y "] knowing [" ?x "," ?y "] middle"crlf)
 	(assert (exec (step ?s) (action guess) (x (- ?x 1))(y ?y)))
 	; ASSERISCO ACQUA ATTORNO
 	(assert (k-cell (x ?x) (y (+ ?y 1)) (content water) ) )       ; dx
@@ -437,7 +438,8 @@
 	(not (exec (action guess) (x ?x-bot &:(eq ?x-bot(+ ?x 1))) (y ?y)))
 	(not (exec (action fire) (x ?x-bot &:(eq ?x-bot(+ ?x 1))) (y ?y)))
 =>
-	(printout t "GUESS ON [" (+ ?x 1) ", " ?y "] knowing [" ?x "," ?y "] MIDDLE" crlf)
+	;(printout t "GUESS ON [" (+ ?x 1) ", " ?y "] knowing [" ?x "," ?y "] MIDDLE" crlf)
+	(printout t "Step " ?s ":    GUESS cell [" (+ ?x 1) ", " ?y "] knowing [" ?x "," ?y "] middle"crlf)
 	(assert (exec (step ?s) (action guess) (x (+ ?x 1)) (y ?y)))
 	; ASSERISCO ACQUA
 	(assert (k-cell (x ?x) (y (+ ?y 1)) (content water) ) )       ; dx
@@ -460,7 +462,8 @@
 	(not (exec (action fire) (x ?x) (y ?y-left &:(eq ?y-left(- ?y 1)))))
 	;(not (exec (action guess) (x ?x-bot &:(eq ?x-up(+ ?x 1))) (y ?y)))
 =>
-	(printout t "GUESS ON [" ?x ", " (- ?y 1) "] knowing [" ?x "," ?y "] MIDDLE" crlf)
+	;(printout t "GUESS ON [" ?x ", " (- ?y 1) "] knowing [" ?x "," ?y "] MIDDLE" crlf)
+	(printout t "Step " ?s ":    GUESS cell [" ?x ", " (- ?y 1) "] knowing [" ?x "," ?y "] middle"crlf)
 	(assert (exec (step ?s) (action guess) (x ?x) (y (- ?y 1)) ))
 	; ASSERISCO ACQUA
 	(assert (k-cell (x (+ ?x 1)) (y ?y) (content water) ) )       ; sotto
@@ -483,7 +486,8 @@
 	(not (exec (action fire) (x ?x) (y ?y-right &:(eq ?y-right(+ ?y 1)))))
 	;(not (exec (action guess) (x ?x-bot &:(eq ?x-up(+ ?x 1))) (y ?y)))
 =>
-	(printout t "GUESS ON [" ?x ", " (+ ?y 1) "] knowing [" ?x "," ?y "] MIDDLE" crlf)
+	;(printout t "GUESS ON [" ?x ", " (+ ?y 1) "] knowing [" ?x "," ?y "] MIDDLE" crlf)
+	(printout t "Step " ?s ":    GUESS cell[" ?x ", " (+ ?y 1) "] knowing [" ?x "," ?y "]  middle"crlf)
 	(assert (exec (step ?s) (action guess) (x ?x) (y (+ ?y 1))))
 	; ASSERISCO ACQUA
 	(assert (k-cell (x (+ ?x 1)) (y ?y) (content water) ) )       ; sotto
