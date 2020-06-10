@@ -1,16 +1,6 @@
 ELENCO COMANDI PER ESEGUIRE CLIPS
 
-(clear)
-
-(load 0_Main.clp)
-(load 1_Env.clp)
-(load 2_Mappa.clp)
-(load 3_Agent.clp)
-(load 3_FireVal_Mod.clp)
-(load 3_Fire_Mod.clp)
-
-(reset)
-(run)
+1) Agente senza modulo Guess a parte
 
 (clear)
 (load 0_Main.clp)
@@ -19,6 +9,21 @@ ELENCO COMANDI PER ESEGUIRE CLIPS
 (load 3_Agent.clp)
 (load 3_FireVal_Mod.clp)
 (load 3_Fire_Mod.clp)
+
+(reset)
+(run)
+
+2) Agente "intelligente" (con modulo guess separato)
+
+(clear)
+
+(load 0_Main.clp)
+(load 1_Env.clp)
+(load 2_Mappa_completa.clp)
+(load Agent2.clp)
+(load Guess_Mod2.clp)
+(load FireVal_Mod2.clp)
+(load Fire_Mod2.clp)
 
 (reset)
 (run)

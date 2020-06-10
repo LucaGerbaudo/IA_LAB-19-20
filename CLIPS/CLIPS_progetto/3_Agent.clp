@@ -284,7 +284,7 @@
 (defrule guessKCellRight (declare (salience 100))
 	(status (step ?s)(currently running))
 	(k-cell (x ?x) (y ?y) (content right))
-	(not (exec (action guess) (x ?x) (y ?Y)))
+	(not (exec (action guess) (x ?x) (y ?y)))
 	(moves (guesses ?ng &:(> ?ng 0)))
 => 
 	(printout t crlf)
