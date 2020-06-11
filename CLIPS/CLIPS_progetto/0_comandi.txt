@@ -1,6 +1,6 @@
 ELENCO COMANDI PER ESEGUIRE CLIPS
 
-1) Agente primitivo
+--- VERSIONE 1) ---Agente primitivo
 
 (clear)
 (load 0_Main.clp)
@@ -10,7 +10,7 @@ ELENCO COMANDI PER ESEGUIRE CLIPS
 (reset)
 (run)
 
-2) Agente senza modulo Guess a parte
+--- VERSIONE 2) ---Agente senza modulo Guess a parte
 
 (clear)
 (load 0_Main.clp)
@@ -23,7 +23,7 @@ ELENCO COMANDI PER ESEGUIRE CLIPS
 (reset)
 (run)
 
-3) Agente "intelligente" (con modulo guess separato)
+--- VERSIONE 3) --- Agente "intelligente" (con modulo guess separato)
 
 (clear)
 
