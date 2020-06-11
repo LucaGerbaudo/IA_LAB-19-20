@@ -22,7 +22,6 @@ ELENCO COMANDI PER ESEGUIRE CLIPS
 (load 2_Mappa_completa.clp)
 (load Agent2.clp)
 (load Guess_Mod2.clp)
-(load FireVal_Mod2.clp)
 (load Fire_Mod2.clp)
 
 (reset)
