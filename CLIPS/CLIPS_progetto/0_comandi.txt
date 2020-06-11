@@ -1,6 +1,16 @@
 ELENCO COMANDI PER ESEGUIRE CLIPS
 
-1) Agente senza modulo Guess a parte
+1) Agente primitivo
+
+(clear)
+(load 0_Main.clp)
+(load 1_Env.clp)
+(load 2_Mappa_completa2.clp)
+(load Agente_Primitivo.clp)
+(reset)
+(run)
+
+2) Agente senza modulo Guess a parte
 
 (clear)
 (load 0_Main.clp)
@@ -13,7 +23,7 @@ ELENCO COMANDI PER ESEGUIRE CLIPS
 (reset)
 (run)
 
-2) Agente "intelligente" (con modulo guess separato)
+3) Agente "intelligente" (con modulo guess separato)
 
 (clear)
 
