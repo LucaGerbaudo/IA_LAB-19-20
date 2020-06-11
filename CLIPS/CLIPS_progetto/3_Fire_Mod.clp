@@ -6,12 +6,6 @@
 
 (defmodule FIRE_FWD (import MAIN ?ALL) (import ENV ?ALL) (import AGENT ?ALL) (import VAL ?ALL) (export ?ALL))
 
-;(defrule ciao
-;=>
-;	(printout t crlf)
-;	(printout t "Ciao ho cambiato modulo" crlf)
-;	(pop-focus)
-;)
 
 ; FIRE su 2 celle sotto alla K-CELL con content=TOP
 (defrule fire_2CellUnderK_Top 
