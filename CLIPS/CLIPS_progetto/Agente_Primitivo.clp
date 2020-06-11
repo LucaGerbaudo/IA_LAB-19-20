@@ -368,13 +368,15 @@
 (defrule fire_random (declare (salience -200))
 	(status (step ?s)(currently running))
 	(moves (fires ?nf &:(> ?nf 0)))
-	(not (exec (action fire) (x ?r) (y ?c) )) ; se non eseguita fire 
-	(not (exec (action guess) (x ?r) (y ?c) )) ; se non eseguita guess 
-	(not (k-cell (x ?r) (y ?c) (content water)) )
+	(k-cell (x ?x) (y ?y) (content ?cont))
+	(not (k-cell (x ?x) (y ?y) (content water)) )
+	(not (exec (action fire) (x ?x) (y ?y) )) ; se non eseguita fire 
+	(not (exec (action guess) (x ?x) (y ?y) )) ; se non eseguita guess 
+	(not (k-cell (x ?x) (y ?y) (content water)) )
 =>
 	(printout t crlf)
-	(printout t "Step " ?s ":   RANDOM FIRE cell [" ?r  "," ?c "] "crlf)
-	(assert (exec (step ?s) (action fire) (x ?r ) (y ?c) ))
+	(printout t "Step " ?s ":   RANDOM FIRE cell [" ?x  "," ?y "] "crlf)
+	(assert (exec (step ?s) (action fire) (x ?x) (y ?y) ))
 	(focus MAIN)
 )
 
