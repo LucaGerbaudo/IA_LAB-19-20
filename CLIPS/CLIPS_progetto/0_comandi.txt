@@ -5,7 +5,7 @@ ELENCO COMANDI PER ESEGUIRE CLIPS
 (clear)
 (load 0_Main.clp)
 (load 1_Env.clp)
-(load 2_Mappa_completa.clp)
+(load 2_Mappa_completa2.clp)
 (load 3_Agent.clp)
 (load 3_FireVal_Mod.clp)
 (load 3_Fire_Mod.clp)
@@ -19,7 +19,7 @@ ELENCO COMANDI PER ESEGUIRE CLIPS
 
 (load 0_Main.clp)
 (load 1_Env.clp)
-(load 2_Mappa_completa.clp)
+(load 2_Mappa_completa2.clp)
 (load Agent2.clp)
 (load Guess_Mod2.clp)
 (load Fire_Mod2.clp)
