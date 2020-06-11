@@ -24,6 +24,13 @@
 	(slot to_find)
 )
 
+(deffacts boat_to_find
+	(submarine (to_find 4))
+	(destroyer (to_find 3))
+	(cruiser (to_find 2))
+	(battleship (to_find 1))
+)
+
 ; Indice sfruttato per fire su best row
 (deftemplate indexFire
 	(slot i)
@@ -31,13 +38,6 @@
 
 (deffacts initIndex
 	(indexFire (i 0))
-)
-
-(deffacts boat_to_find
-	(submarine (to_find 4))
-	(destroyer (to_find 3))
-	(cruiser (to_find 2))
-	(battleship (to_find 1))
 )
 
 ;Template per controlli sulla cella
@@ -706,18 +706,6 @@
 	(printout t crlf)
 )
 
-;  --------------------------- GUESS CELLE FIRED ------------------------------------------------------
-;(defrule guess_cells_fired
-;	(status (step ?s) (currently running))
-;	(not (k-cell (x ?x) (y ?y) (content water) ) )
-;	(cell_status (kx ?x) (ky ?y) (stat fired) )
-;	(not (exec (action guess) (x ?x) (y ?y)))
-;	(moves (fires ?nf &:(> ?nf 0)) (guesses ?ng &:(> ?ng 0)))
-;	=>
-;	(assert (exec (action guess) (x ?x) (y ?y)) )
-;	(printout t "Step " ?s ":    GUESS after fire cell [" ?x "," ?y "]"crlf)
-;	(pop-focus)
-;)
 
 ;  --------------------------- FOCUS MODULO VAL ------------------------------------------------------
 
