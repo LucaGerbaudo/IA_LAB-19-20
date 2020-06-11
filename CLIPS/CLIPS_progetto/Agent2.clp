@@ -202,22 +202,8 @@
 	(modify ?numc (num (- ?nc 1)))
 	(assert (cell_dec (dx ?r)(dy ?c)(stat_dec yes)) )
 	(printout t crlf)
-	(printout t "-------decrementata riga " ?r "(num "(- ?nr 1)") e colonna "?c"(num "(- ?nc 1)")."crlf)
+	;(printout t "-------decrementata riga " ?r "(num "(- ?nr 1)") e colonna "?c"(num "(- ?nc 1)")."crlf)
 )
-
-;  Viene decrementato il numero colonna dopo guess su una cella  DA RIVEDEREEEEEEEEEEEEEEEEEEE
-;(defrule dec_row_after_guess
-;	(status (step ?s)(currently running))
-;	(cell_status (kx ?r) (ky ?c) (stat guessed) )
-;	?numc <- (k-per-col (col ?c) (num ?nc))
-;	(k-per-col (col ?c) (num ?nc &:(> ?nc 0)) )
-;=>
-;	(modify ?numc (num (- ?nc 1)))
-;	(printout t crlf)
-;	(printout t "-------decrementata colonna "?c"(num "(- ?nc 1)")."crlf)
-;)
-
-
 
 ;  --------------------------- GESTIONE NAVI TROVATE ------------------------------------------------
 
