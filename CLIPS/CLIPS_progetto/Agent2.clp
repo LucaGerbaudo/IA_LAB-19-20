@@ -91,6 +91,16 @@
 	(slot ydx)
 )
 
+; Indice sfruttato per fire su best row
+(deftemplate indexFire
+	(slot i)
+)
+
+(deffacts initIndex
+	(indexFire (i 0))
+)
+
+
 ;  --------------------------- INIZIALIZZAZIONE ------------------------------------------------------
 
 ; Caso in cui nessuna cella nota all' inizio del gioco
