@@ -6,17 +6,6 @@
 
 (defmodule VAL (import MAIN ?ALL) (import ENV ?ALL) (import AGENT ?ALL) (export ?ALL))
 
-;  ---------------------------  TEMPLATE AUSLIARI --------------------
-
-; Indice sfruttato per fire su best row
-(deftemplate indexFire
-	(slot i)
-)
-
-(deffacts initIndex
-	(indexFire (i 0))
-)
-
 
 ;----------------------------- FIRE -----------------------------------------
 
