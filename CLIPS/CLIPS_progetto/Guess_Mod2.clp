@@ -28,7 +28,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water)))	;diag sotto dx
 	
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -75,7 +75,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water)))	;diag sotto dx
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -105,7 +105,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 1)) (content water)))	;diag sotto dx
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -128,7 +128,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 1)) (content water))) ; sotto-sx
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -148,7 +148,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 1)) (content water))) ; sotto-sx
 
 	(assert (cell_status (kx ?x) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	;(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
+	(printout t "--------------- cell[" ?x "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -169,7 +169,7 @@
 	(assert (k-cell (x (+ ?x 2)) (y (+ ?y 1)) (content water)))	;diag sotto dx
 
 	(assert (cell_status (kx (+ ?x 1)) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	;(printout t "--------------- cell[" (+ ?x 1) "," ?y "]  guessed"crlf)
+	(printout t "--------------- cell[" (+ ?x 1) "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -188,7 +188,7 @@
 	(assert (k-cell (x (- ?x 2)) (y (+ ?y 1)) (content water)))	;diag sotto dx
 
 	(assert (cell_status (kx (- ?x 1)) (ky ?y) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	;(printout t "--------------- cell[" (- ?x 1) "," ?y "]  guessed"crlf)
+	(printout t "--------------- cell[" (- ?x 1) "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -206,7 +206,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 2)) (content water)))	;diag sotto dx
 
 	(assert (cell_status (kx ?x) (ky (+ ?y 1)) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	;(printout t "--------------- cell[" ?x "," (+ ?y 1) "]  guessed"crlf)
+	(printout t "--------------- cell[" ?x "," (+ ?y 1) "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -225,7 +225,7 @@
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 2)) (content water))) ; sotto-sx
 
 	(assert (cell_status (kx ?x) (ky (- ?y 1)) (stat guessed) )) ; tiene traccia che la cella è stata guessed
-	;(printout t "--------------- cell[" ?x "," (- ?y 1) "]  guessed"crlf)
+	(printout t "--------------- cell[" ?x "," (- ?y 1) "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -253,6 +253,9 @@
 	(assert (k-cell (x ?x) (y (- ?y 1)) (content water) ) )       ; sx
 	(assert (k-cell (x (- ?x 2)) (y (+ ?y 1)) (content water) ) ) ; sopra-dx
 	(assert (k-cell (x (- ?x 2)) (y (- ?y 1)) (content water) ) ) ; sopra-sx
+
+	(assert (cell_status (kx (- ?x 1)) (ky  ?y ) (stat guessed)) ) ; tiene traccia che la cella è stata guessed
+	(printout t "--------------- cell[" (- ?x 1) "," ?y  "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -277,6 +280,9 @@
 	(assert (k-cell (x ?x) (y (- ?y 1)) (content water) ) )       ; sx
 	(assert (k-cell (x (+ ?x 2)) (y (+ ?y 1)) (content water) ) ) ; sotto-dx
 	(assert (k-cell (x (+ ?x 2)) (y (- ?y 1)) (content water) ) ) ; sotto-sx
+
+	(assert (cell_status (kx (+ ?x 1)) (ky ?y ) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	(printout t "--------------- cell[" (+ ?x 1) "," ?y "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -302,6 +308,9 @@
 	(assert (k-cell (x (- ?x 1)) (y ?y) (content water) ) )       ; sopra
 	(assert (k-cell (x (- ?x 1)) (y (- ?y 2)) (content water) ) ) ; sopra-sx
 	(assert (k-cell (x (+ ?x 1)) (y (- ?y 2)) (content water) ) ) ; sotto-sx
+
+	(assert (cell_status (kx ?x) (ky (- ?y 1)) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	(printout t "--------------- cell[" ?x "," (- ?y 1) "]  guessed"crlf)
 	(focus MAIN)
 )
 
@@ -327,5 +336,8 @@
 	(assert (k-cell (x (- ?x 1)) (y ?y) (content water) ) )       ; sopra
 	(assert (k-cell (x (- ?x 1)) (y (+ ?y 2)) (content water) ) ) ; sopra-dx
 	(assert (k-cell (x (+ ?x 1)) (y (+ ?y 2)) (content water) ) ) ; sotto-dx
+
+	(assert (cell_status (kx ?x) (ky (+ ?y 1)) (stat guessed) )) ; tiene traccia che la cella è stata guessed
+	(printout t "--------------- cell[" ?x "," (+ ?y 1) "]  guessed"crlf)
 	(focus MAIN)
 )

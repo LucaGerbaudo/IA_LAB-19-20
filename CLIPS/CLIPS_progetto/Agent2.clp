@@ -33,7 +33,12 @@
 (deftemplate cell_status
 	(slot kx)
 	(slot ky)
-	(slot stat (allowed-values none guessed fired) )
+	(slot stat (allowed-values guessed fired) )
+)
+(deftemplate cell_dec  ; per controllare se già presa in considerazione per decremento
+	(slot dx)
+	(slot dy)
+	(slot stat_dec (allowed-values yes no)(default no))
 )
 
 ; Template per controlli su righe/colonne
@@ -86,6 +91,16 @@
 	(slot ydx)
 )
 
+; Indice sfruttato per fire su best row
+(deftemplate indexFire
+	(slot i)
+)
+
+(deffacts initIndex
+	(indexFire (i 0))
+)
+
+
 ;  --------------------------- INIZIALIZZAZIONE ------------------------------------------------------
 
 ; Caso in cui nessuna cella nota all' inizio del gioco
@@ -102,6 +117,8 @@
 	(status (step ?s)(currently running))
 	(k-per-row (row ?r) (num 0))
 	(not (k-row-water (row ?r)))
+	(not (cell_status (kx ?r) (ky ?y) (stat guessed) ))
+	(not (cell_status (kx ?r) (ky ?y) (stat fired) ))
 =>
 	(printout t "WATER on ROW " ?r crlf)
 	(assert (k-cell (x ?r) (y 0) (content water)))
@@ -123,6 +140,8 @@
 	(status (step ?s)(currently running))
 	(k-per-col (col ?c) (num 0))
 	(not (k-col-water (col ?c)))
+	(not (cell_status (kx ?x) (ky ?c) (stat guessed) )) 
+	(not (cell_status (kx ?x) (ky ?c) (stat fired) ))
 =>
 	(printout t "WATER on COL " ?c crlf)
 	(assert (k-cell (x 0) (y ?c) (content water)))
@@ -166,6 +185,25 @@
 	(assert (k-cell (x 10) (y 9)))
 )
 
+
+;  --------------------------- GESTIONE MARE DOPO GUESS ---------------------------------------------
+
+; Viene decrementato il numero riga e colonna dopo guess su una cella   DA RIVEDEREEEEEEEEEEEEEEEEEEEEE
+(defrule dec_row_after_guess
+	(status (step ?s)(currently running))
+	(cell_status (kx ?r) (ky ?c) (stat guessed) )
+	(not (cell_dec (dx ?r)(dy ?c)(stat_dec yes)) )
+	?numr <- (k-per-row (row ?r) (num ?nr))
+	(k-per-row (row ?r) (num ?n &:(> ?nr 0)) )
+	?numc <- (k-per-col (col ?c) (num ?nc))
+	(k-per-col (col ?c) (num ?nc &:(> ?nc 0)) )
+=>
+	(modify ?numr (num (- ?nr 1)))
+	(modify ?numc (num (- ?nc 1)))
+	(assert (cell_dec (dx ?r)(dy ?c)(stat_dec yes)) )
+	(printout t crlf)
+	;(printout t "-------decrementata riga " ?r "(num "(- ?nr 1)") e colonna "?c"(num "(- ?nc 1)")."crlf)
+)
 
 ;  --------------------------- GESTIONE NAVI TROVATE ------------------------------------------------
 

@@ -40,7 +40,7 @@
 
 ;----------------------------- RANDOM FIRE -----------------------------------------
 
-;(defrule decide_if_fire_random (declare (salience -100))
+;(defrule decide_if_fire_random (declare (salience -200))
 ;	(status (step ?s)(currently running))
 ;	(moves (fires ?nf &:(> ?nf 0)))
 ;	; nel caso in cui nella cella 
@@ -59,7 +59,7 @@
 ;	(focus MAIN)
 ;)
 
-(defrule fireOnCellBestRowAndCol ;(declare (salience -200))
+(defrule fireOnCellBestRowAndCol 
 	(status (step ?s) (currently running))
 	(k-per-row (row ?x) (num ?numR &:(> ?numR 0)))
 	(not (k-per-row (row ?x2) (num ?num-r2 &:(> ?num-r2 ?numR))))
@@ -78,7 +78,7 @@
 )
 
 
-(defrule fireOnBestRow ;(declare (salience -200))
+(defrule fireOnBestRow ;(declare (salience -100))
 	(status (step ?s) (currently running))
 	(k-per-row (row ?x) (num ?numR &:(> ?numR 0)))
 	(not (k-per-row (row ?x2) (num ?num-r2 &:(> ?num-r2 ?numR))))
