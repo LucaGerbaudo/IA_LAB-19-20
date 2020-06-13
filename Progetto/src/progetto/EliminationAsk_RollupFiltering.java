@@ -9,6 +9,7 @@ import aima.core.probability.CategoricalDistribution;
 import aima.core.probability.Factor;
 import aima.core.probability.RandomVariable;
 import aima.core.probability.bayes.BayesianNetwork;
+import aima.core.probability.bayes.DynamicBayesianNetwork;
 import aima.core.probability.bayes.FiniteNode;
 import aima.core.probability.bayes.Node;
 import aima.core.probability.bayes.exact.EliminationAsk;
@@ -27,9 +28,12 @@ public class EliminationAsk_RollupFiltering extends EliminationAsk {
     private static final ProbabilityTable _identity = new ProbabilityTable(
                     new double[] { 1.0 });
 
-        private List<RandomVariable> irrelevants;
-    public EliminationAsk_RollupFiltering(){
-        // this.irrelevants = list;
+
+
+    private List<Factor> savedFactors;
+
+    public EliminationAsk_RollupFiltering(List<Factor> list){
+        this.savedFactors = list;
     }
     // function ELIMINATION-ASK(X, e, bn) returns a distribution over X
     /**
@@ -45,24 +49,54 @@ public class EliminationAsk_RollupFiltering extends EliminationAsk {
      * @return a distribution over the query variables.
      */
     public CategoricalDistribution eliminationAsk(final RandomVariable[] X,
-                    final AssignmentProposition[] e, final BayesianNetwork bn) {
-
+                                                   final AssignmentProposition[] e, final BayesianNetwork bn) {
         Set<RandomVariable> hidden = new HashSet();
         List<RandomVariable> VARS = new ArrayList();
         this.calculateVariables(X, e, bn, hidden, VARS);
         List<Factor> factors = new ArrayList();
+        List<Factor> savedFactors = new ArrayList();
         Iterator i$ = this.order(bn, VARS).iterator();
+        int j = 0;
 
         while(i$.hasNext()) {
             RandomVariable var = (RandomVariable)i$.next();
             ((List)factors).add(0, this.makeFactor(var, e, bn));
+
+            this.savedFactors.add(this.makeFactor(var, e, bn));
+
             if (hidden.contains(var)) {
                 factors = this.sumOut(var, (List)factors, bn);
             }
         }
-
         Factor product = this.pointwiseProduct((List)factors);
+        //return factors.get(0);
         return ((ProbabilityTable)product.pointwiseProductPOS(_identity, X)).normalize();
+    }
+
+    public List<Factor> eliminationAskDBN(final RandomVariable[] X,
+                                          final AssignmentProposition[] e, final DynamicBayesianNetwork dbn) {
+        System.out.println("Sono in ask DBN");
+        Set<RandomVariable> hidden = new HashSet();
+        List<RandomVariable> VARS = new ArrayList();
+        this.calculateVariables(X, e, dbn, hidden, VARS);
+        List<Factor> factors = new ArrayList();
+        List<Factor> savedFactors = new ArrayList();
+        Iterator i$ = this.order(dbn, VARS).iterator();
+        int j = 0;
+
+        while(i$.hasNext()) {
+            RandomVariable var = (RandomVariable)i$.next();
+            ((List)factors).add(0, this.makeFactor(var, e, dbn));
+
+            this.savedFactors.add(this.makeFactor(var, e, dbn));
+
+            if (hidden.contains(var)) {
+                factors = this.sumOut(var, (List)factors, dbn);
+            }
+        }
+        Factor product = this.pointwiseProduct((List)factors);
+        return this.savedFactors;
+        //return ((ProbabilityTable)product.pointwiseProductPOS(_identity, X)).normalize();
     }
     
     //
@@ -115,5 +149,9 @@ public class EliminationAsk_RollupFiltering extends EliminationAsk {
             }
 
             return product;
+    }
+
+    public List<Factor> getSavedFactors() {
+        return savedFactors;
     }
 }
