@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+
+<!--
+  Bayesian network in XMLBIF v0.3 (BayesNet Interchange Format)
+  Produced by SamIam http://reasoning.cs.ucla.edu/samiam
+  Output created 9-giu-2020 22.34.09
+-->
+
+<BIF VERSION="0.3">
+<NETWORK>
+  <NAME>bayesiannetwork</NAME>
+
+  <VARIABLE TYPE="nature">
+    <NAME>E</NAME>
+    <OUTCOME>true</OUTCOME>
+    <OUTCOME>false</OUTCOME>
+    <PROPERTY>position = (419, -242)</PROPERTY>
+  </VARIABLE>
+
+  <VARIABLE TYPE="nature">
+    <NAME>A</NAME>
+    <OUTCOME>true</OUTCOME>
+    <OUTCOME>false</OUTCOME>
+    <PROPERTY>position = (195, -16)</PROPERTY>
+  </VARIABLE>
+
+  <VARIABLE TYPE="nature">
+    <NAME>C</NAME>
+    <OUTCOME>true</OUTCOME>
+    <OUTCOME>false</OUTCOME>
+    <PROPERTY>position = (336, -120)</PROPERTY>
+  </VARIABLE>
+
+  <VARIABLE TYPE="nature">
+    <NAME>D</NAME>
+    <OUTCOME>true</OUTCOME>
+    <OUTCOME>false</OUTCOME>
+    <PROPERTY>position = (190, -202)</PROPERTY>
+  </VARIABLE>
+
+  <VARIABLE TYPE="nature">
+    <NAME>B</NAME>
+    <OUTCOME>true</OUTCOME>
+    <OUTCOME>false</OUTCOME>
+    <PROPERTY>position = (62, -110)</PROPERTY>
+  </VARIABLE>
+
+  <DEFINITION>
+    <FOR>E</FOR>
+    <GIVEN>C</GIVEN>
+    <TABLE>0.7 0.3 0.0 1.0 </TABLE>
+  </DEFINITION>
+
+  <DEFINITION>
+    <FOR>A</FOR>
+    <TABLE>0.6 0.4 </TABLE>
+  </DEFINITION>
+
+  <DEFINITION>
+    <FOR>C</FOR>
+    <GIVEN>A</GIVEN>
+    <TABLE>0.8 0.2 0.1 0.9 </TABLE>
+  </DEFINITION>
+
+  <DEFINITION>
+    <FOR>D</FOR>
+    <GIVEN>B</GIVEN>
+    <GIVEN>C</GIVEN>
+    <TABLE>0.95 0.05 0.9 0.1 0.8 0.2 0.0 1.0 </TABLE>
+  </DEFINITION>
+
+  <DEFINITION>
+    <FOR>B</FOR>
+    <GIVEN>A</GIVEN>
+    <TABLE>0.2 0.8 0.75 0.25 </TABLE>
+  </DEFINITION>
+
+</NETWORK>
+</BIF>
