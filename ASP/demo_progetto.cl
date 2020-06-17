@@ -143,7 +143,7 @@ idOra(S, G, O, ID) :-
 
 %------------------------- Lezioni con ore consecutive -------------------------------
 % Le ore della stessa materia sono consecutive                                      DA RIVEDERE: RICHIEDE TEMPO DI ESECUZIONE TROPPO ELEVATO!
-% vConsecutive :- lezione(I, S, G, O),insegnamento(I), O < O2, lezione(I, S, G, O2), O+1 != O2.
+%vConsecutive :- lezione(I, S, G, O),insegnamento(I), O < O2, lezione(I, S, G, O2), O+1 != O2.
 
 %------------------------- Definizione vincoli rigidi -------------------------------
 
@@ -240,25 +240,44 @@ v6 :- settimana(S_ACC), giorno(G_ACC), ora(O_ACC), lezione(progmulti, S_ACC, G_A
 % ------------------------- Definizione Vincoli Auspicabili---------------------------
 
 %--- Vincolo auspicabile 1 -- Distanza tra prima e ultima ora di lezione < 6 settimane --  (ANDREA)
-%*
-v1a :- 
+
+:- 
     settimana(S_1), giorno(G_1), ora(O_1), lezione(C_1, S_1, G_1, O_1),
     settimana(S_2), giorno(G_2), ora(O_2), lezione(C_2, S_2, G_2, O_2),
     C_1 == C_2, 
     S_2 - S_1 > 5.
-*%
+
 
 %--- Vincolo auspicabile 2 -- Insegnamenti crossmedia e smm devono iniziare nella settimana 16 --  (CHIARA)
 % entrambe le lezioni si svolgono dalla settimana 16, ed entrambe hanno almeno 1 ora in quella settimana
-%*
+% vincolo suddiviso in due sottoregole per ridurre il tempo di esecuzione.
+
 :-  lezione(crossmedia, S, G, O), giorno(G), ora(O), settimana(S), S < 16.
 :-  lezione(smm, S, G, O), giorno(G), ora(O), settimana(S), S < 16.
-v2a :- lezione(crossmedia, 16, G, O), giorno(G), ora(O), lezione(smm, 16, G, O), giorno(G), ora(O).
-*%
+v2aa :- lezione(crossmedia, 16, G, O).
+v2ab : lezione(smm, 16, G, O).
+
 
 %--- Vincolo auspicabile 3 -- Ogni insegnamento successivo deve iniziare 4 ore dopo il precedente --  (LUCA)
 
+propedeuticita(ict,pBD).
+propedeuticita(tsmd,smm).
+propedeuticita(cpub,vgp).
+propedeuticita(tss,psawdmI).
+:-
+propedeuticita(P1,P2),
+lezione(P2,S,G,O),
+idOra(S,G,O,ID1),
+#count{ID2:lezione(P1,S1,G1,O1),idOra(S1,G1,O1,ID2),ID2 < ID1} != 4.
+
 %--- Vincolo auspicabile 4 -- 
+
+1{ultima_settimana_psawdmI(S)} 1:-lezione(psawdmI,S,G,O), #max {SS:lezione(psawdmI,SS,GG,OO)} = S.
+1{prima_settimana_psawmII(S)} 1:-lezione(psawmII,S,G,O), #min {SS:lezione(psawmII,SS,GG,OO)} = S.
+:-ultima_settimana_psawdmI(S1),
+    prima_settimana_psawmII(S2),
+    S2 - S1 > 2.
+
 
 % ------------------------ Definizione dei goal --------------------------
 goal :- 
@@ -299,11 +318,12 @@ v6.
 
 :- not goal.
 
-%*
 goal_auspicabili:-
-    not v1a.
-    v2a.
-*%
-%:- not goal_auspicabili.
+    v2aa,
+    v2ab
+    .
+
+:- not goal_auspicabili.
+
 
 #show lezione/4.
