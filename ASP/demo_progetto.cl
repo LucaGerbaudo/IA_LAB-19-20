@@ -168,7 +168,7 @@ v3 :- lezione(presentazione_master, 1, 5, 1), lezione(presentazione_master, 1, 5
 %--- Vincolo 5 --  l’insegnamento “Project Management” deve concludersi non oltre la prima settimana full-time --
 :- settimana(S), giorno(G), ora(O), S > 7, lezione(pm, S, G, O).
 
-%--- Vincolo 6 --  la prima lezione di progmulti collocata prima del termine lezioni di lm --           DA RIVEDERE!!!!!!
+%--- Vincolo 6 --  la prima lezione di progmulti collocata prima del termine lezioni di lm --          
 v6 :- settimana(S_ACC), giorno(G_ACC), ora(O_ACC), lezione(progmulti, S_ACC, G_ACC, O_ACC),
     settimana(S_LM), giorno(G_LM), ora(O_LM), lezione(lm, S_LM, G_LM, O_LM),
     idOra(S_ACC, G_ACC, O_ACC, N_ACC), idOra(S_LM, G_LM, O_LM, N_LM), N_LM < N_ACC.
@@ -239,7 +239,7 @@ v6 :- settimana(S_ACC), giorno(G_ACC), ora(O_ACC), lezione(progmulti, S_ACC, G_A
 
 % ------------------------- Definizione Vincoli Auspicabili---------------------------
 
-%--- Vincolo auspicabile 1 -- Distanza tra prima e ultima ora di lezione < 6 settimane --  (ANDREA)
+%--- Vincolo auspicabile 1 -- Distanza tra prima e ultima ora di lezione < 6 settimane --  
 
 :- 
     settimana(S_1), giorno(G_1), ora(O_1), lezione(C_1, S_1, G_1, O_1),
@@ -248,7 +248,7 @@ v6 :- settimana(S_ACC), giorno(G_ACC), ora(O_ACC), lezione(progmulti, S_ACC, G_A
     S_2 - S_1 > 5.
 
 
-%--- Vincolo auspicabile 2 -- Insegnamenti crossmedia e smm devono iniziare nella settimana 16 --  (CHIARA)
+%--- Vincolo auspicabile 2 -- Insegnamenti crossmedia e smm devono iniziare nella settimana 16 --  
 % entrambe le lezioni si svolgono dalla settimana 16, ed entrambe hanno almeno 1 ora in quella settimana
 % vincolo suddiviso in due sottoregole per ridurre il tempo di esecuzione.
 
@@ -258,7 +258,7 @@ v2aa :- lezione(crossmedia, 16, G, O).
 v2ab : lezione(smm, 16, G, O).
 
 
-%--- Vincolo auspicabile 3 -- Ogni insegnamento successivo deve iniziare 4 ore dopo il precedente --  (LUCA)
+%--- Vincolo auspicabile 3 -- Ogni insegnamento successivo deve iniziare 4 ore dopo il precedente --  
 
 propedeuticita(ict,pBD).
 propedeuticita(tsmd,smm).
@@ -270,7 +270,7 @@ lezione(P2,S,G,O),
 idOra(S,G,O,ID1),
 #count{ID2:lezione(P1,S1,G1,O1),idOra(S1,G1,O1,ID2),ID2 < ID1} != 4.
 
-%--- Vincolo auspicabile 4 -- 
+%--- Vincolo auspicabile 4 -- la distanza fra ultima lezione di psawdmI  e la prima di psawmII non deve superare le due settimane --
 
 1{ultima_settimana_psawdmI(S)} 1:-lezione(psawdmI,S,G,O), #max {SS:lezione(psawdmI,SS,GG,OO)} = S.
 1{prima_settimana_psawmII(S)} 1:-lezione(psawmII,S,G,O), #min {SS:lezione(psawmII,SS,GG,OO)} = S.
