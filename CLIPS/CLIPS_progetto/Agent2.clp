@@ -188,7 +188,7 @@
 
 ;  --------------------------- GESTIONE MARE DOPO GUESS ---------------------------------------------
 
-; Viene decrementato il numero riga e colonna dopo guess su una cella   DA RIVEDEREEEEEEEEEEEEEEEEEEEEE
+; Viene decrementato il numero riga e colonna dopo guess su una cella   
 (defrule dec_row_after_guess
 	(status (step ?s)(currently running))
 	(cell_status (kx ?r) (ky ?c) (stat guessed) )
