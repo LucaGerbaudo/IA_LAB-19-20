@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="85d5f0ad-02e7-4f7d-98ea-8a9202460d1d" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1dP87byeifMSQsMBgF4NJrQTu6j" />
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/bifNets" />
+      <recent name="$PROJECT_DIR$/src/modificabn" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/generator" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.TestProgetto_2">
+    <configuration name="ExamplesDBN" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="progetto.dynamic_networks.ExamplesDBN" />
+      <module name="Progetto" />
+      <option name="PROGRAM_PARAMETERS" value="5 1 0 1 0 0" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="progetto.ordinamenti.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestDynamicNet" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="progetto.TestDynamicNet" />
+      <module name="Progetto" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="progetto.ordinamenti.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestProgetto_1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="progetto.test.TestProgetto_1" />
+      <module name="Progetto" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="progetto.ordinamenti.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestProgetto_2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="progetto.test.TestProgetto_2" />
+      <module name="Progetto" />
+      <option name="PROGRAM_PARAMETERS" value="5 1 1 0 1 1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="progetto.ordinamenti.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UmbrellaParticle" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="progetto.UmbrellaParticle" />
+      <module name="Progetto" />
+      <option name="PROGRAM_PARAMETERS" value="100 1 1 1 1 1 1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="progetto.ordinamenti.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.ExamplesDBN" />
+      <item itemvalue="Application.TestDynamicNet" />
+      <item itemvalue="Application.UmbrellaParticle" />
+      <item itemvalue="Application.TestProgetto_1" />
+      <item itemvalue="Application.TestProgetto_2" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TestProgetto_2" />
+        <item itemvalue="Application.TestProgetto_1" />
+        <item itemvalue="Application.UmbrellaParticle" />
+        <item itemvalue="Application.ExamplesDBN" />
+        <item itemvalue="Application.TestDynamicNet" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="85d5f0ad-02e7-4f7d-98ea-8a9202460d1d" name="Default Changelist" comment="" />
+      <created>1592315201328</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1592315201328</updated>
+      <workItem from="1592315204007" duration="2805000" />
+      <workItem from="1592381866536" duration="1999000" />
+      <workItem from="1592389673012" duration="2262000" />
+      <workItem from="1592397153954" duration="11282000" />
+      <workItem from="1592418949620" duration="7000" />
+      <workItem from="1592472660285" duration="3023000" />
+      <workItem from="1592481323530" duration="16684000" />
+      <workItem from="1592512457085" duration="622000" />
+      <workItem from="1592556135276" duration="3455000" />
+      <workItem from="1592562340912" duration="1114000" />
+      <workItem from="1592575689839" duration="17525000" />
+      <workItem from="1592638348015" duration="26900000" />
+      <workItem from="1592724952076" duration="27569000" />
+      <workItem from="1592764952007" duration="5716000" />
+      <workItem from="1592856267282" duration="2570000" />
+      <workItem from="1592913339453" duration="7000" />
+      <workItem from="1592946157756" duration="1625000" />
+      <workItem from="1592990313505" duration="10161000" />
+      <workItem from="1593022583490" duration="1437000" />
+      <workItem from="1593072591076" duration="2567000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/probability/bayes/impl/DynamicBayesNet.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
