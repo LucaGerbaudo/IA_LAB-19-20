@@ -51,7 +51,7 @@ public class TestProgetto_1 {
         Collections.reverse(order);
         CategoricalDistribution cd = eliminationAsk.eliminationAsk(bn, qrv, ap, order);
         long stopTime = System.nanoTime();
-        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.NANOSECONDS));
+        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.MILLISECONDS));
 
         // MinDegree
         System.out.println("Simple query con MinDegreeOrder");
@@ -59,7 +59,7 @@ public class TestProgetto_1 {
         order = MinDegreeOrder.minDegreeOrder(bn);
         cd = eliminationAsk.eliminationAsk(bn, qrv, ap, order);
         stopTime = System.nanoTime();
-        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.NANOSECONDS));
+        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.MILLISECONDS));
         System.out.println("MinDegreeOrder : " + order);
 
         // MinFill
@@ -68,7 +68,7 @@ public class TestProgetto_1 {
         System.out.println("Simple query con MinFillOrder");
         cd = eliminationAsk.eliminationAsk(bn, qrv, ap, order);
         stopTime = System.nanoTime();
-        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.NANOSECONDS));
+        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.MILLISECONDS));
         System.out.println("MinFillOrder : " + order);
     }
 
@@ -82,7 +82,7 @@ public class TestProgetto_1 {
         long startTime = System.nanoTime();
         CategoricalDistribution cd = eliminationAsk.eliminationAsk(qrv, ap, bn);
         long stopTime = System.nanoTime();
-        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.NANOSECONDS));
+        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.MILLISECONDS));
     }
 
 
