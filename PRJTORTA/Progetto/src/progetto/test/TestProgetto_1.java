@@ -17,16 +17,16 @@ import java.util.concurrent.TimeUnit;
 public class TestProgetto_1 {
 
     public static void main(String[] args) {
-        test7();
+        test17();
     }
 
     public static void runTest(BayesianNetwork bn, RandomVariable [] qrv, AssignmentProposition [] ap, HashMap<String, RandomVariable> rvsmap, boolean irrilevant1, boolean irrilevant2, boolean irrilevant3) {
-        System.out.println("Query Variable : " + Arrays.asList(qrv).toString());
+        System.out.println("\nQuery Variable : " + Arrays.asList(qrv).toString());
         System.out.println("Evidence : " + Arrays.asList(ap).toString());
 
         /*********************************************** Nodi irrilevanti ********************************************/
 
-        System.out.println("Nodi irrilevanti ancestors : " + irrilevant1);
+        System.out.println("\nNodi irrilevanti ancestors : " + irrilevant1);
         if(irrilevant1) Pruning.nodiIrrilevanti1(bn, qrv, ap);
 
         /***************************************** Nodi irrilevanti Moral Graph *****************************/
@@ -40,36 +40,37 @@ public class TestProgetto_1 {
         if(irrilevant3) Pruning.archiIrrilevanti(bn, ap);
 
         /******************************************* V.E. con ORDINAMENTI ************************************************************/
-
+        System.out.println("");
         runTestRusselNorvig(bn, qrv, ap);
 
         // Topologico Inverso e V.E di Dalwiche
         EliminationAsk eliminationAsk = new EliminationAsk();
-        System.out.println("Simple query con " + eliminationAsk.getClass());
+        System.out.println("Simple query con " + eliminationAsk.getClass() + " (ordine topologico inverso)");
         long startTime = System.nanoTime();
         List<RandomVariable> order = new ArrayList<>(bn.getVariablesInTopologicalOrder());
         Collections.reverse(order);
         CategoricalDistribution cd = eliminationAsk.eliminationAsk(bn, qrv, ap, order);
         long stopTime = System.nanoTime();
-        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.MILLISECONDS));
+        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.NANOSECONDS));
 
         // MinDegree
-        System.out.println("Simple query con MinDegreeOrder");
+        System.out.println("\nSimple query con MinDegreeOrder");
         startTime = System.nanoTime();
         order = MinDegreeOrder.minDegreeOrder(bn);
         cd = eliminationAsk.eliminationAsk(bn, qrv, ap, order);
         stopTime = System.nanoTime();
-        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.MILLISECONDS));
+        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.NANOSECONDS));
         System.out.println("MinDegreeOrder : " + order);
 
         // MinFill
         startTime = System.nanoTime();
         order = MinFillOrder.minFillOrder(bn);
-        System.out.println("Simple query con MinFillOrder");
+        System.out.println("\nSimple query con MinFillOrder");
         cd = eliminationAsk.eliminationAsk(bn, qrv, ap, order);
         stopTime = System.nanoTime();
-        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.MILLISECONDS));
+        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.NANOSECONDS));
         System.out.println("MinFillOrder : " + order);
+        System.out.println("");
     }
 
      /**
@@ -82,7 +83,7 @@ public class TestProgetto_1 {
         long startTime = System.nanoTime();
         CategoricalDistribution cd = eliminationAsk.eliminationAsk(qrv, ap, bn);
         long stopTime = System.nanoTime();
-        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.MILLISECONDS));
+        System.out.println(cd + ": " + TimeUnit.MILLISECONDS.convert((stopTime - startTime), TimeUnit.NANOSECONDS));
     }
 
 
@@ -370,5 +371,122 @@ public class TestProgetto_1 {
         }
 
         runTest(bn,qrv,ap,rvsmap, false, false, true);
+    }
+
+    /**
+     * Test
+     */
+    public static void test13() {
+        HashMap<String, RandomVariable> rvsmap = new HashMap<>();
+        BayesianNetwork bn = BifReader.readBIF("xmlNets/survey.xml");
+        List<RandomVariable> rvs = bn.getVariablesInTopologicalOrder();
+        for (RandomVariable rv :rvs) {
+            rvsmap.put(rv.getName(), rv);
+        }
+        RandomVariable[] qrv = new RandomVariable[1];
+        qrv[0] = rvsmap.get("R");
+
+        Random rn = new Random(); int min = 0;
+        String [] evidenze = new String[]{"E", "O"};
+
+        AssignmentProposition[] ap = new AssignmentProposition[evidenze.length];
+        for (int i = 0; i < evidenze.length; i++) {
+            ap[i] = new AssignmentProposition(rvsmap.get(evidenze[i]),((ArbitraryTokenDomain)rvsmap.get(evidenze[i]).getDomain()).getPossibleValues().toArray()[rn.nextInt((rvsmap.get(evidenze[i]).getDomain().size()-1 - min) + 1) + min]);
+        }
+
+        runTest(bn,qrv,ap,rvsmap, false, false, true);
+    }
+    /**
+     * Test
+     */
+    public static void test14() {
+        HashMap<String, RandomVariable> rvsmap = new HashMap<>();
+        BayesianNetwork bn = BifReader.readBIF("xmlNets/survey.xml");
+        List<RandomVariable> rvs = bn.getVariablesInTopologicalOrder();
+        for (RandomVariable rv :rvs) {
+            rvsmap.put(rv.getName(), rv);
+        }
+        RandomVariable[] qrv = new RandomVariable[1];
+        qrv[0] = rvsmap.get("E");
+
+        Random rn = new Random(); int min = 0;
+        String [] evidenze = new String[]{"T", "R"};
+
+        AssignmentProposition[] ap = new AssignmentProposition[evidenze.length];
+        for (int i = 0; i < evidenze.length; i++) {
+            ap[i] = new AssignmentProposition(rvsmap.get(evidenze[i]),((ArbitraryTokenDomain)rvsmap.get(evidenze[i]).getDomain()).getPossibleValues().toArray()[rn.nextInt((rvsmap.get(evidenze[i]).getDomain().size()-1 - min) + 1) + min]);
+        }
+
+        runTest(bn,qrv,ap,rvsmap, false, false, true);
+    }
+
+    /**
+     * Test
+     */
+    public static void test15() {
+        HashMap<String, RandomVariable> rvsmap = new HashMap<>();
+        BayesianNetwork bn = BifReader.readBIF("xmlNets/survey.xml");
+        List<RandomVariable> rvs = bn.getVariablesInTopologicalOrder();
+        for (RandomVariable rv :rvs) {
+            rvsmap.put(rv.getName(), rv);
+        }
+        RandomVariable[] qrv = new RandomVariable[1];
+        qrv[0] = rvsmap.get("E");
+
+        Random rn = new Random(); int min = 0;
+        String [] evidenze = new String[]{"T", "R"};
+
+        AssignmentProposition[] ap = new AssignmentProposition[evidenze.length];
+        for (int i = 0; i < evidenze.length; i++) {
+            ap[i] = new AssignmentProposition(rvsmap.get(evidenze[i]),((ArbitraryTokenDomain)rvsmap.get(evidenze[i]).getDomain()).getPossibleValues().toArray()[rn.nextInt((rvsmap.get(evidenze[i]).getDomain().size()-1 - min) + 1) + min]);
+        }
+
+        runTest(bn,qrv,ap,rvsmap, true, true, true);
+    }
+    /**
+     * Test
+     */
+    public static void test16() {
+        HashMap<String, RandomVariable> rvsmap = new HashMap<>();
+        BayesianNetwork bn = BifReader.readBIF("xmlNets/survey.xml");
+        List<RandomVariable> rvs = bn.getVariablesInTopologicalOrder();
+        for (RandomVariable rv :rvs) {
+            rvsmap.put(rv.getName(), rv);
+        }
+        RandomVariable[] qrv = new RandomVariable[1];
+        qrv[0] = rvsmap.get("E");
+
+        Random rn = new Random(); int min = 0;
+        String [] evidenze = new String[]{"T", "R"};
+
+        AssignmentProposition[] ap = new AssignmentProposition[evidenze.length];
+        for (int i = 0; i < evidenze.length; i++) {
+            ap[i] = new AssignmentProposition(rvsmap.get(evidenze[i]),((ArbitraryTokenDomain)rvsmap.get(evidenze[i]).getDomain()).getPossibleValues().toArray()[rn.nextInt((rvsmap.get(evidenze[i]).getDomain().size()-1 - min) + 1) + min]);
+        }
+
+        runTest(bn,qrv,ap,rvsmap, false, true, false);
+    }
+    /**
+     * Test
+     */
+    public static void test17() {
+        HashMap<String, RandomVariable> rvsmap = new HashMap<>();
+        BayesianNetwork bn = BifReader.readBIF("xmlNets/survey.xml");
+        List<RandomVariable> rvs = bn.getVariablesInTopologicalOrder();
+        for (RandomVariable rv :rvs) {
+            rvsmap.put(rv.getName(), rv);
+        }
+        RandomVariable[] qrv = new RandomVariable[1];
+        qrv[0] = rvsmap.get("E");
+
+        Random rn = new Random(); int min = 0;
+        String [] evidenze = new String[]{"T", "R"};
+
+        AssignmentProposition[] ap = new AssignmentProposition[evidenze.length];
+        for (int i = 0; i < evidenze.length; i++) {
+            ap[i] = new AssignmentProposition(rvsmap.get(evidenze[i]),((ArbitraryTokenDomain)rvsmap.get(evidenze[i]).getDomain()).getPossibleValues().toArray()[rn.nextInt((rvsmap.get(evidenze[i]).getDomain().size()-1 - min) + 1) + min]);
+        }
+
+        runTest(bn,qrv,ap,rvsmap, true, false, false);
     }
 }
