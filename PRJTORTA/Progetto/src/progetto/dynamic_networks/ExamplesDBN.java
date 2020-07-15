@@ -206,16 +206,18 @@ public class ExamplesDBN {
         for (RandomVariable rv :rvs) {
             rvsmap.put(rv.getName(), rv);
         }
-
+        //radici che dal tempo -1 vanno in t le rndvariable definiscono nome e dominio
         RandomVariable rnage = new RandVar("Age_tm-1", new ArbitraryTokenDomain("Adolescent", "Adult", "Senior"));
         RandomVariable rnmileage = new RandVar("Mileage_tm-1", new ArbitraryTokenDomain("FiveThou", "TwentyThou", "FiftyThou", "Domino"));
+        //sono i nodi della CPT e vanno a finire nella prior network
         FiniteNode age_tm1 = new FullCPTNode(rnage, new double[] { 0.2, 0.6, 0.2 });
         FiniteNode mileage_tm1 = new FullCPTNode(rnmileage, new double[] { 0.1, 0.4, 0.4, 0.1 });
-
+        //la rete a priori con i valori al tempo t-1 che non dipendono da niente
         BayesNet priorNetwork = new BayesNet(age_tm1, mileage_tm1);
 
 
         //Prior belief state
+        //sono quelli che vanno poi a condizionare al tempo t
         RandomVariable rnage_prior = new RandVar("Age_tm-1", new ArbitraryTokenDomain("Adolescent", "Adult", "Senior"));
         RandomVariable rnmileage_prior = new RandVar("Mileage_tm-1", new ArbitraryTokenDomain("FiveThou", "TwentyThou", "FiftyThou", "Domino"));
         FiniteNode age_tm1_prior = new FullCPTNode(rnage_prior, new double[] { 0.2, 0.6, 0.2 });
