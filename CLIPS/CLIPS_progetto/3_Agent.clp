@@ -100,7 +100,7 @@
 ;  --------------------------- INIZIALIZZAZIONE ------------------------------------------------------
 
 ; Caso in cui nessuna cella nota all' inizio del gioco
-(defrule no-knoweledge-at-beginning (declare (salience 500))
+(defrule no-knoweledge-at-beginning (declare (salience 501))
 	(not (k-cell (x ?x) (y ?y) (content ?t) ))
 	;(k-per-row (row ?r) (num ?n))
 =>
@@ -735,14 +735,14 @@
 	(printout t crlf)
 	(printout t "I don't know what to do anymore: let's SOLVE!" crlf)
 	(printout t crlf)
-	(printout t "Boats not found: "crlf)
-	(printout t ?to_find_s " submarines left"crlf)
-	(printout t ?to_find_d " destroyers left"crlf)
-	(printout t ?to_find_c " cruisers left"crlf)
-	(printout t ?to_find_b " battleships left"crlf)
-	(printout t crlf)
+	;(printout t "Boats not found: "crlf)
+	;(printout t ?to_find_s " submarines left"crlf)
+	;(printout t ?to_find_d " destroyers left"crlf)
+	;(printout t ?to_find_c " cruisers left"crlf)
+	;(printout t ?to_find_b " battleships left"crlf)
+	;(printout t crlf)
 	(printout t "Fires left: " ?nf "   Guess left: " ?ng " "crlf)
-	(printout t crlf)
+	;(printout t crlf)
 	(pop-focus)
 )
 
