@@ -19,7 +19,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class TestProgetto_2 {
-    public static void main(String[] args) { test4(); }
+    public static void main(String[] args) { test5(); }
 
     /**
      * Esecuzione test con i 3 ordinamenti e con/senza pruning
@@ -160,7 +160,7 @@ public class TestProgetto_2 {
         RandomVariable[] X;
         System.out.println("Stato Age, MakeModel, CarValue");
         X = new RandomVariable[] { rvsmap.get("Age"), rvsmap.get("MakeModel"), rvsmap.get("CarValue") };
-        runTest(bn, X, aps , rvsmap, 0);
+        runTest(bn, X, aps , rvsmap, 3);
     }
 
     /**
@@ -194,6 +194,6 @@ public class TestProgetto_2 {
         RandomVariable[] X;
         System.out.println("Stato Age, MakeModel, CarValue");
         X = new RandomVariable[] { rvsmap.get("Age"), rvsmap.get("MakeModel"), rvsmap.get("CarValue") };
-        runTest(bn, X, aps , rvsmap, 2);
+        runTest(bn, X, aps , rvsmap, 3);
     }
 }
